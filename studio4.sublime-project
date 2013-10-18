@@ -1,0 +1,22 @@
+{
+  "folders":
+  [
+    {
+      "follow_symlinks": true,
+      "path": ".",
+      "name": "Braveheart",
+      "folder_exclude_patterns": ["build-tmp", ".git"],
+      "file_exclude_patterns": ["*.sublime-workspace"]
+    }
+  ],
+  "settings": {
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true,
+    "draw_white_space": "all",
+    "rulers": [100],
+    "wrap_width": true,
+    "wrap_width": 100,
+    "ensure_newline_at_eof_on_save": true,
+    "trim_trailing_white_space_on_save": true
+  }
+}
