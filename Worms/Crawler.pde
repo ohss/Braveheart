@@ -10,11 +10,13 @@ public class Crawler {
 
 	public void draw() {
 		if (drawIndex == points.size()-1) {
-                points = pointFactory.getNewPoints();
-                drawIndex = 0; 
-        } else {
-                line(points.get(drawIndex).x, points.get(drawIndex).y, points.get(drawIndex+1).x, points.get(drawIndex+1).y);
-                drawIndex++;
-        }
+			points = pointFactory.getNewPoints();
+			drawIndex = 0; 
+		} else {
+			if (points.get(drawIndex).distance(points.get(drawIndex+1)) < 50){
+					line(points.get(drawIndex).x, points.get(drawIndex).y, points.get(drawIndex+1).x, points.get(drawIndex+1).y);
+			}
+			drawIndex++;
+		}
 	}
 }

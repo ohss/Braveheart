@@ -18,7 +18,7 @@ private int numberOfPoints = 1000; //Range 1000-10 000. O(N^2) Very brute force 
 private int border = 1; //This is used when the brightness variance of the neighborhood of a pixel is calculated
 //Neighborhood is (2*border+1)^2 pixels. (1-3 are good values)
 private float brightnessThreshold = 30; //range 5-50. Only pixels with greater brightness variance are selected
-private int maxDistanceToNextPoint = 15; //used when approximating the sorting of points. In the end result, distances between last points tend to be long
+private int maxDistanceToNextPoint = 1; //used when approximating the sorting of points. In the end result, distances between last points tend to be long
 
 public void setup(){
 	setImage("./img/"+imageName);
