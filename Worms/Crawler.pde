@@ -3,7 +3,6 @@ public class Crawler {
 	private ArrayList<Point> newPoints;
 	private PointFactory pointFactory;
 	private int drawIndex = 0;
-	private int num = 0;
 
 	public Crawler (PointFactory pointFactory) {
 		this.pointFactory = pointFactory;
