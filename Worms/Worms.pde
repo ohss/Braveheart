@@ -21,6 +21,7 @@ private float brightnessThreshold = 30; //range 5-50. Only pixels with greater b
 private int maxDistanceToNextPoint = 1; //used when approximating the sorting of points. In the end result, distances between last points tend to be long
 
 public void setup(){
+	background(180);
 	setImage("./img/"+imageName);
 	size(img.width, img.height);
 	PointFactory pointFactory = new PointFactory(numberOfPoints, border, brightnessThreshold, maxDistanceToNextPoint);
