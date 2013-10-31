@@ -11,3 +11,5 @@ build-tmp/
 # Sublime crud
 *.sublime-workspace
 
+#Other
+*image2.jpg
