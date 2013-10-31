@@ -10,7 +10,7 @@ procsilas (procsilas@hotmail.com / http://procsilas.net)
 
 import java.awt.Point;
 
-private String imageName = "image2.jpg";
+private String imageName = "image.jpg";
 private PImage img;
 private ArrayList<Crawler> crawlers = new ArrayList<Crawler>();
 private Particles particles;

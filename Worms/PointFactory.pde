@@ -33,14 +33,14 @@ private void createPoints() {
     float contrast = standardDeviation(x,y);
     //If contrast is enough, point is probably a contour point and the point is added to list.
     if (contrast > brightnessThreshold) {
-      System.out.println("Success!");
+      // System.out.println("Success!");
       points.add(new Point(x,y));
       failedTries = 0;
       i++;
     } else {
       failedTries++;
       if (failedTries > 20) {
-        System.out.println("Shieeeeet");
+        // System.out.println("Shieeeeet");
         brightnessThreshold *= 0.999; //lower the treshold when too many failed attempts. Value might not be right
         failedTries = 0;
       }
