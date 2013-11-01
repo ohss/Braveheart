@@ -29,9 +29,10 @@ private int maxDistanceToNextPoint = 1; //used when approximating the sorting of
 private PointFactory pointFactory;
 
 public void setup(){
+    size(600,600);
 	background(0);
-	setImage("./img/"+imageName);
-	size(img.width, img.height);
+	setImage(imageName);
+	//size(img.width, img.height);
 	//stroke(67,35,184);
 	reset();
 	
@@ -53,7 +54,7 @@ private void reset() {
 }
 
 private void setImage(String s) {
-	img = loadImage(s);
+	img = loadImage("./img/"+s);
 	img.loadPixels();
 }
 
@@ -78,6 +79,33 @@ public void draw() {
 public void keyReleased() {
 	if (key == ENTER || key == RETURN) {
 		switchDrawMode();
+	} 
+	if (key == '1') {
+		imageName = "image.jpg";
+		setImage(imageName);
+		reset();
 	}
+	if (key == '2') {
+		imageName = "braveheart.jpg";
+		setImage(imageName);
+		reset();
+	}
+	if (key == '3') {
+		imageName = "cat.jpg";
+		setImage(imageName);
+		reset();
+	}
+	if (key == '4') {
+		imageName = "descartes.jpg";
+		setImage(imageName);
+		reset();
+	}
+	if (key == '5') {
+		imageName = "banksy.jpg";
+		setImage(imageName);
+		reset();
+	}
+
+
 }
 
