@@ -11,7 +11,7 @@ public class Crawler {
 	public void draw() {
 		float w = random(0.3, 1.5);
 		float ww = random(-1,1);
-		stroke(44*(w+1), 117*(ww+1), 255, 30);
+		stroke(44*(w+1), 117*(ww+1), 255, 100);
 		if (drawIndex == points.size()-1) {
                 points = pointFactory.getNewPoints();
                 drawIndex = 0;
