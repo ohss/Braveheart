@@ -31,6 +31,7 @@ private PointFactory pointFactory;
 public void setup(){
     size(600,600);
 	background(0);
+	frame.setTitle("Press enter to change mode, numbers 1-5 to change image");
 	setImage(imageName);
 	//size(img.width, img.height);
 	//stroke(67,35,184);
