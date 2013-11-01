@@ -13,7 +13,7 @@ import java.awt.Point;
 private String imageName = "image.jpg";
 private PImage img;
 private ArrayList<Crawler> crawlers = new ArrayList<Crawler>();
-private Particles particles;
+private ArrayList<Particle> particles = new ArrayList<Particle>();
 
 private int numberOfPoints = 1000; //Range 1000-10 000. O(N^2) Very brute force implementations, KdTree could help or building a binary tree when adding points.
 private int border = 1; //This is used when the brightness variance of the neighborhood of a pixel is calculated
@@ -21,18 +21,27 @@ private int border = 1; //This is used when the brightness variance of the neigh
 private float brightnessThreshold = 30; //range 5-50. Only pixels with greater brightness variance are selected
 private int maxDistanceToNextPoint = 15; //used when approximating the sorting of points. In the end result, distances between last points tend to be long
 
+private static int REPEL_MOUSE_MIN_DIST = 50;
+private static float REPEL_MOUSE_FACTOR = 0.2;
+private static int GRAV_TO_POINT_FACTOR = 500;
+private static float GRAVITATION = 9;
+private static float MAX_SPEED = 50;
+private static float RANDOM_MOTION_FACTOR = 5;
+
 public void setup(){
-	setImage("./img/"+imageName);
-	size(img.width, img.height, P2D);
 	background(0);
+	setImage("./img/"+imageName);
+	size(img.width, img.height);
 	// fill(0,0,0,20);
 	stroke(67,35,184);
 	PointFactory pointFactory = new PointFactory(numberOfPoints, border, brightnessThreshold, maxDistanceToNextPoint);
 	for (int i = 0; i < 10; i++) {
-		crawlers.add(new Crawler(pointFactory));
+		//crawlers.add(new Crawler(pointFactory));
+		int x = (int) random(0, width);
+		int y = (int) random(0, height);
+		println(x+" "+y);
+		particles.add(new Particle(x,y));
 	}
-	//particles = new Particles(pointFactory);
-
 }
 
 private void setImage(String s) {
@@ -41,9 +50,12 @@ private void setImage(String s) {
 }
 
 public void draw() {
-	for (Crawler c : crawlers) {
-		c.draw();
+	background(0);
+	// for (Crawler c : crawlers) {
+	// 	c.draw();
+	// }
+	for (Particle p : particles) {
+		p.draw();
 	}
-	//particles.draw();
 }
 
