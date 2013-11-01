@@ -17,6 +17,11 @@ import java.awt.Point;
 private String imageName = "image.jpg";
 private PImage img;
 private ArrayList<Crawler> crawlers = new ArrayList<Crawler>();
+private ArrayList<Particle> particles = new ArrayList<Particle>();
+
+private boolean drawModeLines = true;
+private boolean modeSwitched = false;
+private PImage bgImage;
 
 private int numberOfPoints = 2000; //Range 1000-10 000. Very brute force.
 private int border = 1; //This is used when the brightness variance of the neighborhood of a pixel is calculated
@@ -30,8 +35,11 @@ public void setup(){
 	size(img.width, img.height);
 	stroke(67,35,184);
 	PointFactory pointFactory = new PointFactory(numberOfPoints, border, brightnessThreshold, maxDistanceToNextPoint);
-	for (int i = 0; i<10; i++){
-		crawlers.add(new Crawler(pointFactory));
+	for (int i = 0; i<9; i++){
+		crawlers.add(new Crawler(this, pointFactory));
+	}
+	for (Point p : pointFactory.getNewPoints()){
+		particles.add(new Particle(p.x,p.y));
 	}
 
 }
@@ -41,9 +49,25 @@ private void setImage(String s) {
 	img.loadPixels();
 }
 
+public void switchDrawModeToParticles() {
+	if (!modeSwitched) {
+		modeSwitched = true;
+		drawModeLines = false;
+		saveFrame("bgImage.jpg");
+		bgImage = loadImage("bgImage.jpg");
+	}
+}
+
 public void draw() {
-	for (Crawler c : crawlers){
-		c.draw();
+	if (drawModeLines) {
+		for (Crawler c : crawlers){
+			c.draw();
+		}
+	} else {
+		background(bgImage);
+		for (Particle p : particles){
+			p.draw();
+		}
 	}
 }
 

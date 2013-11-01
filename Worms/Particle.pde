@@ -23,6 +23,7 @@ public class Particle {
                 acceleration = new PVector(0,0);
                 gravLocation = new PVector(x, y);
                 mass = 10;
+                
         }
 
         //repel mouse and gravitate towards gravTo point
@@ -33,6 +34,12 @@ public class Particle {
                 velocity.add(acceleration);
                 location.add(velocity);
                 acceleration.mult(0);
+        }
+
+        private int newColor() {
+        	float w = random(0.3, 1.5);
+                float ww = random(-1,1);
+                return(color(44*(w+1), 117*(ww+1), 255));
         }
 
         void applyMouseRejectForce() {
@@ -67,16 +74,10 @@ public class Particle {
                 acceleration.add(PVector.div(force, mass));
         }
 
-        public void draw(int c) {
+        public void draw() {
                 update();
-                stroke(c);
+                stroke(newColor());
                 noFill();
                 ellipse(location.x, location.y, drawSize, drawSize);
         }
-
-        public void draw() {
-                draw(color(255));
-        }
-
-
 }
