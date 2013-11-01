@@ -61,12 +61,15 @@ public class Particle {
 		acceleration.add(PVector.div(force, mass));
 	}
 
-	public void draw() {
+	public void draw(int c) {
 		update();
-		fill(255, 0, 0);
-		ellipse(location.x, location.y, 50, 50);
-		fill(255);
-		ellipse(width/2, height/2, 50, 50);
+		stroke(c);
+		noFill();
+		ellipse(location.x, location.y, 1, 1);
+	}
+
+	public void draw() {
+		draw(color(255));
 	}
 
 
