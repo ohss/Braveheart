@@ -1,3 +1,8 @@
+/** Based on: 
+*	http://processing.datasingularity.com/sketches/ParticlePhysicsTutorial_6/applet/ParticlePhysicsTutorial_6.pde
+*	
+**/
+
 public class Particle {
 
 	PVector location;
@@ -6,10 +11,11 @@ public class Particle {
 	PVector gravLocation;
 	float mass;
 	float gravMass = 1000;
-	float friction = 0.5;
+	float friction = 0.9;
 	float strength = 500;
 	float minDistance = 500;
 	float minDistanceToMouse = 100;
+	int drawSize = 1;
 
 	public Particle (int x, int y) {
 		location = new PVector(x,y);
@@ -65,7 +71,7 @@ public class Particle {
 		update();
 		stroke(c);
 		noFill();
-		ellipse(location.x, location.y, 1, 1);
+		ellipse(location.x, location.y, drawSize, drawSize);
 	}
 
 	public void draw() {

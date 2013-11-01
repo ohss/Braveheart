@@ -15,7 +15,7 @@ private PImage img;
 private ArrayList<Crawler> crawlers = new ArrayList<Crawler>();
 private ArrayList<Particle> particles = new ArrayList<Particle>();
 
-private int numberOfPoints = 5000; //Range 1000-10 000. O(N^2) Very brute force implementations, KdTree could help or building a binary tree when adding points.
+private int numberOfPoints = 2000; //Range 1000-10 000. Very brute force.
 private int border = 1; //This is used when the brightness variance of the neighborhood of a pixel is calculated
 //Neighborhood is (2*border+1)^2 pixels. (1-3 are good values)
 private float brightnessThreshold = 30; //range 5-50. Only pixels with greater brightness variance are selected
