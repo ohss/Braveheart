@@ -46,6 +46,7 @@ private void createPoints() {
       }
     }
   }
+  sortPoints();
 }
 /**
 *This method calculates the brightness variance and standard deviation of the pixels neighborhood.
@@ -112,13 +113,8 @@ private void sortPoints() {
   }
 }
 
-public ArrayList<Point> getPoints() {
-  return points;
-}
-
 public ArrayList<Point> getNewPoints() {
   createPoints();
-  sortPoints();
   return points;
 }
 }
