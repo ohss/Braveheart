@@ -27,12 +27,6 @@ public void setup(){
 	size(img.width, img.height);
 	stroke(67,35,184);
 	PointFactory pointFactory = new PointFactory(numberOfPoints, border, brightnessThreshold, maxDistanceToNextPoint);
-	// for (int i = 0; i<3; i++){
-	// 	crawlers.add(new Crawler(pointFactory, true));
-	// }
-	// for (int i = 0; i<7; i++){
-	// 	crawlers.add(new Crawler(pointFactory, false));
-	// }
 	for (Point p : pointFactory.getNewPoints()){
 		particles.add(new Particle(p.x,p.y));
 	}
@@ -52,7 +46,7 @@ public void draw() {
 	for (Particle p : particles){
 		w = random(0.3, 1.5);
 		ww = random(-1,1);
-		c = color(44*(w+1), 117*(ww+1), 255, 100);
+		c = color(44*(w+1), 117*(ww+1), 255);
 		p.draw(c);
 	}
 }
