@@ -1,67 +1,72 @@
-import java.awt.Point;
-
 public class Particle {
 
-
-	private int posX;
-	private int posY;
-	private int gravX = width/2;
-	private int gravY = 4*height/5;
-	private float VectorX;
-	private float VectorY;
+	PVector location;
+	PVector velocity;
+	PVector acceleration;
+	PVector gravLocation;
+	float mass;
+	float gravMass = 1000;
+	float friction = 0.5;
+	float strength = 500;
+	float minDistance = 500;
+	float minDistanceToMouse = 100;
 
 	public Particle (int x, int y) {
-		this.posX = x;
-		this.posY = y;
-		// this.gravX = x;
-		// this.gravY = y;
-		this.VectorX  = 0.0;
-		this.VectorY  = 0.0;
+		location = new PVector(x,y);
+		velocity = new PVector(0,0);
+		acceleration = new PVector(0,0);
+		gravLocation = new PVector(x, y);
+		mass = 10;
 	}
 
 	//repel mouse and gravitate towards gravTo point
 	public void update() {
-		//repel mouse
-		// int distX = mouseX - posX;
-		// int distY = mouseY - posY;
-		// float dist = (float) Math.sqrt(distX * distX + distY * distY);
-		// println("1 "+VectorX+" "+VectorY);
-		// 	if (dist == 0) {dist = 0.01;}
-		// 	float tx = mouseX - REPEL_MOUSE_MIN_DIST * distX / dist;
-		// 	float ty = mouseY - REPEL_MOUSE_MIN_DIST * distY / dist;
-		// 	VectorX += (tx - posX) * REPEL_MOUSE_FACTOR;
-		// 	VectorY += (ty - posY) * REPEL_MOUSE_FACTOR;
-		
-		// println("2 "+VectorX+" "+VectorY);
-		
-		//gravitate towards gravTo point
+		applyMouseRejectForce();
+		applyDissipativeForce();
+		applyAttractiveForce();
+		velocity.add(acceleration);
+		location.add(velocity);
+		acceleration.mult(0);
+	}
 
-		int distX = mouseX - posX;
-		int distY = mouseY - posY;
-		int signX = (int) Math.signum(distX);
-		int signY = (int) Math.signum(distY);
-		println(signX+" "+ signY);
-		VectorX += signX * GRAVITATION / abs(0.1 * distX);
-		VectorY += signY * GRAVITATION / abs(0.1 * distY);
-		println("3 "+VectorX+" "+VectorY);
-		
-		//move
-		float speed = (float) Math.sqrt(VectorX*VectorX + VectorY*VectorY);
-		if (speed > MAX_SPEED) {
-			VectorX = MAX_SPEED * VectorX / speed;
-			VectorY = MAX_SPEED * VectorY / speed;
+	void applyMouseRejectForce() {
+		PVector mouseLocation = new PVector(mouseX, mouseY);
+		PVector dir = PVector.sub(mouseLocation, location); //vector between particle and mouse
+		float d = dir.mag(); //magnitude of the vector (lenght)
+		if (d < minDistanceToMouse) {
+			dir.normalize(); 
+			float force = (strength * mass * mass) / (d * d); 
+			dir.mult(force);
+			dir.mult(-1);
+			applyForce(dir);
 		}
-		println("4 "+VectorX+" "+VectorY);
-		posX += VectorX;
-		posY += VectorY;
+	}
+
+	void applyDissipativeForce() {
+		PVector f = PVector.mult(velocity, -friction);
+		applyForce(f);
+	}
+
+	void applyAttractiveForce() {
+		PVector dir = PVector.sub(gravLocation, location); //vector between particle and gravitation point
+		float d = dir.mag(); //magnitude of the vector (lenght)
+		if (d < minDistance) d = minDistance;
+		dir.normalize(); 
+		float force = (strength * mass * gravMass) / (d * d); 
+		dir.mult(force);
+		applyForce(dir);
+	}
+
+	private void applyForce(PVector force) {
+		acceleration.add(PVector.div(force, mass));
 	}
 
 	public void draw() {
 		update();
 		fill(255, 0, 0);
-		ellipse(posX, posY, 50, 50);
+		ellipse(location.x, location.y, 50, 50);
 		fill(255);
-		ellipse(width/2, 4*height/5, 50, 50);
+		ellipse(width/2, height/2, 50, 50);
 	}
 
 

@@ -21,13 +21,6 @@ private int border = 1; //This is used when the brightness variance of the neigh
 private float brightnessThreshold = 30; //range 5-50. Only pixels with greater brightness variance are selected
 private int maxDistanceToNextPoint = 15; //used when approximating the sorting of points. In the end result, distances between last points tend to be long
 
-private static int REPEL_MOUSE_MIN_DIST = 50;
-private static float REPEL_MOUSE_FACTOR = 0.2;
-private static int GRAV_TO_POINT_FACTOR = 500;
-private static float GRAVITATION = 9;
-private static float MAX_SPEED = 50;
-private static float RANDOM_MOTION_FACTOR = 5;
-
 public void setup(){
 	background(0);
 	setImage("./img/"+imageName);
@@ -35,13 +28,7 @@ public void setup(){
 	// fill(0,0,0,20);
 	stroke(67,35,184);
 	PointFactory pointFactory = new PointFactory(numberOfPoints, border, brightnessThreshold, maxDistanceToNextPoint);
-	for (int i = 0; i < 10; i++) {
-		//crawlers.add(new Crawler(pointFactory));
-		int x = (int) random(0, width);
-		int y = (int) random(0, height);
-		println(x+" "+y);
-		particles.add(new Particle(x,y));
-	}
+	particles.add(new Particle(width/2,height/2));
 }
 
 private void setImage(String s) {
