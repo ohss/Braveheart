@@ -1,7 +1,6 @@
-import java.awt.Point;
 
 public class PointFactory {
-private ArrayList<Point> points;
+private ArrayList<PVector> points;
 private int numberOfPoints;
 private int border = 1;
 private float brightnessThreshold;
@@ -23,7 +22,7 @@ public PointFactory(int nPoints, int border, float btr, int distNextP) {
 *At the moment this function does not take in count the minimum distance between points
  **/
 private void createPoints() {
-  points = new ArrayList<Point>();
+  points = new ArrayList<PVector>();
   int failedTries = 0;
   for (int i = 0; i < numberOfPoints;) {
     //select a random point that is 'border' away from edges
@@ -34,7 +33,7 @@ private void createPoints() {
     //If contrast is enough, point is probably a contour point and the point is added to list.
     if (contrast > brightnessThreshold) {
       // System.out.println("Success!");
-      points.add(new Point(x,y));
+      points.add(new PVector(x,y));
       failedTries = 0;
       i++;
     } else {
@@ -91,11 +90,11 @@ private void sortPoints() {
     int indexOfminDistancePoint = k;
     int flag = 0;
     while (flag == 0 && k < numberOfPoints) {
-      distance = points.get(i).distance(points.get(k));
+      distance = points.get(i).dist(points.get(k));
       if (distance < maxDistanceToNextPoint) {
-        Point p = points.get(k);
+        PVector v = points.get(k);
         points.remove(k);
-        points.add(i+1, p);
+        points.add(i+1, v);
         flag = 1;
       } else {
         if (distance < minDistance) {
@@ -106,14 +105,14 @@ private void sortPoints() {
       }
     }
     if (flag == 0) {
-      Point p = points.get(indexOfminDistancePoint);
+      PVector v = points.get(indexOfminDistancePoint);
       points.remove(indexOfminDistancePoint);
-      points.add(i+1, p);
+      points.add(i+1, v);
     }
   }
 }
 
-public ArrayList<Point> getNewPoints() {
+public ArrayList<PVector> getNewPoints() {
   createPoints();
   return points;
 }

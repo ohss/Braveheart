@@ -12,7 +12,7 @@ Adam Lastowka
 http://www.openprocessing.org/sketch/95650
 **/
 
-import java.awt.Point;
+/* @pjs preload="braveheart.jpg"; */
 
 private String imageName = "image.jpg";
 private PImage img;
@@ -29,9 +29,9 @@ private int maxDistanceToNextPoint = 1; //used when approximating the sorting of
 private PointFactory pointFactory;
 
 public void setup(){
-    size(600,600);
+        size(600,600);
 	background(0);
-	frame.setTitle("Press enter to change mode, numbers 1-5 to change image");
+	//frame.setTitle("Press enter to change mode, numbers 1-5 to change image");
 	setImage(imageName);
 	//size(img.width, img.height);
 	//stroke(67,35,184);
@@ -49,13 +49,15 @@ private void reset() {
 	for (int i = 0; i<9; i++){
 		crawlers.add(new Crawler(pointFactory));
 	}
-	for (Point p : pointFactory.getNewPoints()){
-		particles.add(new Particle(p.x,p.y));
+	for (PVector v : pointFactory.getNewPoints()){
+		particles.add(new Particle(v.x,v.y));
 	}
 }
 
 private void setImage(String s) {
-	img = loadImage("./img/"+s);
+	img = loadImage("./"+s);
+	//String url = "https://dl.dropboxusercontent.com/u/20043122/braveheart.jpg";
+	//img = loadImage(img);
 	img.loadPixels();
 }
 

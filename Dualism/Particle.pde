@@ -17,7 +17,7 @@ public class Particle {
         float minDistanceToMouse = 100;
         int drawSize = 1;
 
-        public Particle (int x, int y) {
+        public Particle (float x, float y) {
                 location = new PVector(x,y);
                 velocity = new PVector(0,0);
                 acceleration = new PVector(0,0);
