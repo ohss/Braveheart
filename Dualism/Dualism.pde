@@ -12,10 +12,11 @@ Adam Lastowka
 http://www.openprocessing.org/sketch/95650
 **/
 
-/* @pjs preload="braveheart.jpg"; */
+/* @pjs preload="image.jpg, braveheart.jpg, cat.jpg, descartes.jpg, banksy.jpg"; */
 
 private String imageName = "image.jpg";
 private PImage img;
+
 private ArrayList<Crawler> crawlers;// = new ArrayList<Crawler>();
 private ArrayList<Particle> particles;// = new ArrayList<Particle>();
 
@@ -28,13 +29,16 @@ private float brightnessThreshold = 30; //range 5-50. Only pixels with greater b
 private int maxDistanceToNextPoint = 1; //used when approximating the sorting of points. In the end result, distances between last points tend to be long
 private PointFactory pointFactory;
 
+private PImage image1;
+private PImage image2;
+private PImage image3;
+private PImage image4;
+private PImage image5;
+
 public void setup(){
         size(600,600);
 	background(0);
-	//frame.setTitle("Press enter to change mode, numbers 1-5 to change image");
-	setImage(imageName);
-	//size(img.width, img.height);
-	//stroke(67,35,184);
+        setImages();
 	reset();
 	
 }
@@ -54,11 +58,15 @@ private void reset() {
 	}
 }
 
-private void setImage(String s) {
-	img = loadImage("./"+s);
-	//String url = "https://dl.dropboxusercontent.com/u/20043122/braveheart.jpg";
-	//img = loadImage(img);
-	img.loadPixels();
+
+private void setImages() {
+        image1 = loadImage("image.jpg");
+        image2 = loadImage("braveheart.jpg");
+        image3 = loadImage("cat.jpg");
+        image4 = loadImage("descartes.jpg");
+        image5 = loadImage("banksy.jpg");
+        img = image1;
+        img.loadPixels();
 }
 
 public void switchDrawMode() {
@@ -85,27 +93,32 @@ public void keyReleased() {
 	} 
 	if (key == '1') {
 		imageName = "image.jpg";
-		setImage(imageName);
+		img = image1;
+                img.loadPixels();
 		reset();
 	}
 	if (key == '2') {
 		imageName = "braveheart.jpg";
-		setImage(imageName);
+		img = image2;
+                img.loadPixels();
 		reset();
 	}
 	if (key == '3') {
 		imageName = "cat.jpg";
-		setImage(imageName);
+		img = image3;
+                img.loadPixels();
 		reset();
 	}
 	if (key == '4') {
 		imageName = "descartes.jpg";
-		setImage(imageName);
+		img = image4;
+                img.loadPixels();
 		reset();
 	}
 	if (key == '5') {
 		imageName = "banksy.jpg";
-		setImage(imageName);
+		img = image5;
+                img.loadPixels();
 		reset();
 	}
 
