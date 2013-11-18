@@ -4,8 +4,8 @@ The visual representation and functionality of the main menu.
 
 public class Menu {
   boolean help = false;
-  boolean credits = false;
   boolean highScore = false;
+  boolean credits = false;
   
   /* IN SELECT ATTRIBUTE:
   * 0 equals start game, 1 equals instructions,
@@ -22,6 +22,9 @@ public class Menu {
     textAlign(CENTER);
     if (!help && !credits && !highScore) {
       drawMain();
+    } else if (help) {
+      System.out.println("helpissä");
+      drawHelp();
     }
   }
   
@@ -57,31 +60,46 @@ public class Menu {
     }
   }
   
+  public void drawHelp(){
+    
+  }
+  
   public void keyPressed(){
-    if (key == CODED) {
-      int i = 0;
-      if (keyCode == UP) {
-        i = -1;
-      } else if (keyCode == DOWN) {
-        i = 1;
+    if (!help && !highScore && !credits) {
+      if (key == CODED) {
+        int i = 0;
+        if (keyCode == UP) {
+          i = -1;
+        } else if (keyCode == DOWN) {
+          i = 1;
+        }
+        select += i;
+        if (select > 3) {
+          select = 0;
+        } else if (select < 0) {
+          select = 3;
+        }
       }
-      select += i;
-      if (select > 3) {
-        select = 0;
-      } else if (select < 0) {
-        select = 3;
+      if (key == ENTER || key == RETURN) {
+        if (select == 0) {
+          System.out.println("Start");
+        } else if (select == 1) {
+          help = true;
+        } else if (select == 2) {
+          highScore = true;
+        } else if (select == 3) {
+          credits = true;
+        }
       }
     }
-    if (key == ENTER || key == RETURN) {
-      if (select == 0) {
-        System.out.println("Start");
-      } else if (select == 1) {
-        System.out.println("Instructions");
-      } else if (select == 2) {
-        System.out.println("High");
-      } else if (select == 3) {
-        System.out.println("Credits");
-      }
+    if (help && (key == ENTER || key == RETURN)) {
+      help = false;
+    }
+    if (highScore && (key == ENTER || key == RETURN)) {
+      highScore = false;
+    }
+    if (credits && (key == ENTER || key == RETURN)) {
+      credits = false;
     }
   }
 }
