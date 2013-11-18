@@ -11,7 +11,7 @@ Water water = new Water();
 Menu menu = new Menu();
 
 // Required flags
-Boolean mainMenu = true;
+boolean mainMenu = true;
 
 public void setup(){
   size(1000,800);
@@ -26,5 +26,11 @@ public void draw(){
   
   if (mainMenu) {
     menu.draw();
+  }
+}
+
+public void keyPressed() {
+  if (mainMenu) {
+    menu.keyPressed();
   }
 }
