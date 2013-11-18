@@ -1,7 +1,5 @@
 import java.math.BigDecimal;
 
-import processing.core.*;
-
 public class Charts {
 	private Gui gui;
 	private DataGroup userData;

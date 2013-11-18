@@ -1,9 +1,5 @@
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-
-
 public class DataGroup {
 	private ArrayList<Data> datas = new ArrayList<Data>();
 	public final int R_MULTIPLIER = 5;

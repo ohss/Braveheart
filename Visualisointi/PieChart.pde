@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-import processing.core.*;
-
 public class PieChart {
 	private ArrayList<Data> datas;
 	private DataGroup dataGroup;
@@ -20,7 +18,7 @@ public class PieChart {
 	}
 
 	public void draw() {
-		hint(PConstants.DISABLE_DEPTH_TEST);
+		//hint(PConstants.DISABLE_DEPTH_TEST);
 		float lastAngle = 0;
 		float r = dataGroup.getR();
 		for (Data data : datas) {
@@ -28,7 +26,7 @@ public class PieChart {
 			arc(posX, posY, r, r, lastAngle, lastAngle+PApplet.radians(data.getAngle()));
 			lastAngle += PApplet.radians(data.getAngle());
 		}
-		hint(PConstants.ENABLE_DEPTH_TEST);
+		//hint(PConstants.ENABLE_DEPTH_TEST);
 	}
 
 	public int getPosX() {
