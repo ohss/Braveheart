@@ -7,7 +7,6 @@
 
 # Processing temporary files
 build-tmp/
-web-export/
 
 # Sublime crud
 *.sublime-workspace
