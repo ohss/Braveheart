@@ -10,6 +10,7 @@ H2OBar h2oBar = new H2OBar();
 Player player = new Player();
 Water water = new Water();
 Menu menu = new Menu();
+HeartRateMonitor heartRateMonitor = new HeartRateMonitor();
 
 // Required flags
 boolean mainMenu = true;
@@ -41,7 +42,7 @@ public void draw(){
   h2oBar.draw();
   player.draw();
   water.draw();
-  
+
   if (mainMenu) {
     divePlayer.pause();
     if (!menuPlayer.isPlaying()) {
