@@ -7,6 +7,65 @@ public class Game {
   public void draw(){
     fill(135, 206, 235);
     rect(0, 0, 1000, 800);
+    String time = calcTime();
+    drawStats(time);
+  }
+  
+  private void drawStats(String time){
+    textAlign(RIGHT, BOTTOM);
+    // Do the outline for text
+    textSize(28);
+    fill(0);
+    text("HEARTRATE", 976, 49);
+    text(time, 976, 99);
+    // Do the text
+    textSize(28);
+    fill(255);
+    text("HEARTRATE", 975, 50);
+    text(time, 975, 100);
+    // Reset settings
+    fill(0);
+    textAlign(CENTER);
+  }
+  
+  private String calcTime(){
+    String finMinutes = "00";
+    String finSeconds = "00";
+    String finTenths = "00";
+    if (diveStart != 0) {
+      int minutes = 0;
+      int seconds = 0;
+      int tenths = 0;
+      int diff = millis() - diveStart;
+      while (diff/60000 >= 1) {
+        minutes++;
+        diff -= 60000;
+      }
+      while (diff/1000 >= 1) {
+        seconds++;
+        diff -= 1000;
+      }
+      while (diff/10 >= 1) {
+        tenths++;
+        diff -= 10;
+      }
+      if (minutes < 10) {
+        finMinutes = "0" + minutes;
+      } else {
+        finMinutes = minutes + "";
+      }
+      if (seconds < 10) {
+        finSeconds = "0" + seconds;
+      } else {
+        finSeconds = seconds + "";
+      }
+      if (tenths < 10) {
+        finTenths = "0" + tenths;
+      } else {
+        finTenths = tenths + "";
+      }
+    }
+    return finMinutes + ":" + finSeconds + ":" + finTenths;
   }
   
   public void drawCountdown(){
@@ -38,17 +97,24 @@ public class Game {
       drawCDNumbers("RELAX");
     } else if (diff > 11000) {
       countDown = false;
+      diveStart = millis();
     }
   }
   
-  private void drawCDNumbers(String num) {
+  private void drawCDNumbers(String num){
     textFont(biggerFont);
     textAlign(CENTER, CENTER);
     textSize(150);
     text(num, 500, 400);
   }
   
-  public void keyPressed() {
+  public void keyPressed(){
+    endGame();
+  }
+  
+  public void endGame(){
+    diveStart = 0;
+    diveEnd = millis();
     mainMenu = true;
   }
 }

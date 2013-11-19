@@ -84,18 +84,18 @@ public class Menu {
   
   public void drawHigh(){
     String scores = " 1. 10:20 - AAA\n" +
-    " 2. 09:58 - AAA\n" +
-    " 3. 09:30 - AAA\n" +
-    " 4. 09:01 - AAA\n" +
-    " 5. 08:59 - AAA\n" +
-    " 6. 08:58 - AAA\n" +
-    " 7. 08:30 - AAA\n" +
-    " 8. 08:00 - AAA\n" +
-    " 9. 07:43 - AAA\n" +
-    "10. 06:59 - AAA\n" +
+    " 2. 09:58:29 - AAA\n" +
+    " 3. 09:30:24 - AAA\n" +
+    " 4. 09:01:57 - AAA\n" +
+    " 5. 08:59:35 - AAA\n" +
+    " 6. 08:58:48 - AAA\n" +
+    " 7. 08:30:24 - AAA\n" +
+    " 8. 08:00:51 - AAA\n" +
+    " 9. 07:43:43 - AAA\n" +
+    "10. 06:59:12 - AAA\n" +
     "---------------\n" +
-    "38. 01:23 - AAA\n" +
-    "39. 01:00 - AAA\n";
+    "38. 01:23:34 - AAA\n" +
+    "39. 01:00:51 - AAA\n";
     header("HIGH SCORES");
     textAlign(CENTER, CENTER);
     rectMode(CENTER);

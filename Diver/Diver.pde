@@ -16,6 +16,8 @@ Menu menu = new Menu();
 boolean mainMenu = true;
 boolean countDown = false;
 int countdownStart = 0;
+int diveStart = 0;
+int diveEnd = 0;
 
 // Audio players
 Minim minim;
