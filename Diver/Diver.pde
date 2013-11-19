@@ -10,7 +10,7 @@ H2OBar h2oBar = new H2OBar();
 Player player = new Player();
 Water water = new Water();
 Menu menu = new Menu();
-HeartRateMonitor heartRateMonitor = new HeartRateMonitor();
+//HeartRateMonitor heartRateMonitor = new HeartRateMonitor(this);
 
 // Required flags
 boolean mainMenu = true;
