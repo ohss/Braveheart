@@ -14,6 +14,7 @@ public class Menu {
   int select = 0;
   
   public void draw(){
+    
     fill(0, 50);
     rect(0, 0, 1000, 800);
     fill(0);

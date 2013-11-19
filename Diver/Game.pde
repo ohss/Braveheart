@@ -48,4 +48,8 @@ public class Game {
     textSize(150);
     text(num, 500, 400);
   }
+  
+  public void keyPressed() {
+    mainMenu = true;
+  }
 }
