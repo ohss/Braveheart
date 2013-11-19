@@ -14,17 +14,18 @@ public class Menu {
   int select = 0;
   
   public void draw(){
-    fill(153, 10);
+    fill(0, 50);
     rect(0, 0, 1000, 800);
     fill(0);
-    PFont menufont = loadFont("PressStart2P-48.vlw");
-    textFont(menufont);
     textAlign(CENTER);
     if (!help && !credits && !highScore) {
       drawMain();
     } else if (help) {
-      System.out.println("helpissä");
       drawHelp();
+    } else if (highScore) {
+      drawHigh();
+    } else if (credits) {
+      drawCredits();
     }
   }
   
@@ -61,6 +62,14 @@ public class Menu {
   }
   
   public void drawHelp(){
+    // Tänne sit vaan kirjottelemaan ohjeita
+  }
+  
+  public void drawHigh(){
+    
+  }
+  
+  public void drawCredits(){
     
   }
   
@@ -82,7 +91,9 @@ public class Menu {
       }
       if (key == ENTER || key == RETURN) {
         if (select == 0) {
-          System.out.println("Start");
+          mainMenu = false;
+          countDown = true;
+          countdownStart = millis();
         } else if (select == 1) {
           help = true;
         } else if (select == 2) {
@@ -91,14 +102,11 @@ public class Menu {
           credits = true;
         }
       }
-    }
-    if (help && (key == ENTER || key == RETURN)) {
+    } else if (help && (key == ENTER || key == RETURN)) {
       help = false;
-    }
-    if (highScore && (key == ENTER || key == RETURN)) {
+    } else if (highScore && (key == ENTER || key == RETURN)) {
       highScore = false;
-    }
-    if (credits && (key == ENTER || key == RETURN)) {
+    } else if (credits && (key == ENTER || key == RETURN)) {
       credits = false;
     }
   }

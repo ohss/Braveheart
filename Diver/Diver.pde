@@ -12,10 +12,14 @@ Menu menu = new Menu();
 
 // Required flags
 boolean mainMenu = true;
+boolean countDown = false;
+int countdownStart = 0;
 
 public void setup(){
   size(1000,800);
   background(135, 206, 235);
+  PFont gameFont = loadFont("PressStart2P-48.vlw");
+  textFont(gameFont);
 }
 
 public void draw(){
@@ -26,6 +30,8 @@ public void draw(){
   
   if (mainMenu) {
     menu.draw();
+  } else if (countDown) {
+    game.drawCountdown();
   }
 }
 
