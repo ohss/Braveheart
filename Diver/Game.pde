@@ -42,8 +42,7 @@ public class Game {
   }
   
   private void drawCDNumbers(String num) {
-    PFont countdownFont = loadFont("PressStart2P-150.vlw");
-    textFont(countdownFont);
+    textFont(biggerFont);
     textAlign(CENTER, CENTER);
     textSize(150);
     text(num, 500, 400);

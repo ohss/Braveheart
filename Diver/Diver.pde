@@ -23,11 +23,16 @@ Minim minim;
 AudioPlayer menuPlayer;
 AudioPlayer divePlayer;
 
+// Fonts
+PFont biggerFont;
+PFont smallerFont;
+
 public void setup(){
   size(1000,800);
   background(135, 206, 235);
-  PFont gameFont = loadFont("PressStart2P-48.vlw");
-  textFont(gameFont);
+  biggerFont = loadFont("PressStart2P-150.vlw");
+  smallerFont = loadFont("PressStart2P-48.vlw");
+  textFont(smallerFont);
   minim = new Minim(this);
   menuPlayer = minim.loadFile("data/02_Underclocked_(underunderclocked_mix).mp3", 2048);
   divePlayer = minim.loadFile("data/07_We're_the_Resistors.mp3", 2048);
