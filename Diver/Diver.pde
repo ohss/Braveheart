@@ -15,6 +15,7 @@ Menu menu = new Menu();
 // Required flags
 boolean mainMenu = true;
 boolean countDown = false;
+boolean gameOver = false;
 int countdownStart = 0;
 int diveStart = 0;
 int diveEnd = 0;

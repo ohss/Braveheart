@@ -109,12 +109,13 @@ public class Game {
   }
   
   public void keyPressed(){
-    endGame();
-  }
-  
-  public void endGame(){
     diveStart = 0;
     diveEnd = millis();
     mainMenu = true;
+  }
+  
+  public void gameOver(){
+    diveStart = 0;
+    diveEnd = millis();
   }
 }
