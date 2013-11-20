@@ -114,8 +114,9 @@ public class Game {
     mainMenu = true;
   }
   
-  public void gameOver(){
+  public void gameIsOver(){
     diveStart = 0;
     diveEnd = millis();
+    gameOver = true;
   }
 }

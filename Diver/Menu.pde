@@ -14,7 +14,6 @@ public class Menu {
   int select = 0;
   
   public void draw(){
-    
     fill(0, 50);
     rect(0, 0, 1000, 800);
     fill(0);
@@ -113,7 +112,8 @@ public class Menu {
     "* The countdown music: \n\n" +
     "* The underwater music: We're the Resistors by Eric Skiff (ericskiff.com)\n\n" +
     "* The player sprite: \n\n" +
-    "* The game's font: Press Start 2P by codeman38 (fontspace.com)";
+    "* The game's font: Press Start 2P by codeman38 (fontspace.com)\n\n" +
+    "* Other sounds made with Bfxr (bfxr.net)";
     header("CREDITS");
     textAlign(LEFT, CENTER);
     rectMode(CENTER);
@@ -156,6 +156,8 @@ public class Menu {
         }
       }
       if (key == ENTER || key == RETURN) {
+        selectPlayer.rewind();
+        selectPlayer.play();
         if (select == 0) {
           mainMenu = false;
           countDown = true;
@@ -169,10 +171,16 @@ public class Menu {
         }
       }
     } else if (help && (key == ENTER || key == RETURN)) {
+      selectPlayer.rewind();
+      selectPlayer.play();
       help = false;
     } else if (highScore && (key == ENTER || key == RETURN)) {
+      selectPlayer.rewind();
+      selectPlayer.play();
       highScore = false;
     } else if (credits && (key == ENTER || key == RETURN)) {
+      selectPlayer.rewind();
+      selectPlayer.play();
       credits = false;
     }
   }

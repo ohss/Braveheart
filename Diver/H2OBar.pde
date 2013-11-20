@@ -16,9 +16,12 @@ public class H2OBar {
     fill(0);
     stroke(0);
     strokeWeight(1);
-    if (countDown) {
+    if (!mainMenu && countDown) {
       fillBar();
     } else {
+      if (fill < 200 && !mainMenu && !gameOver) {
+        playWarnings();
+      }
       emptyBar();
     }
   }
@@ -34,12 +37,29 @@ public class H2OBar {
     stroke(0);
   }
   
+  private void playWarnings() {
+    if (((int)millis()/700)%2 == 0) {
+      if (!warningPlayer.isPlaying()) {
+        warningPlayer.rewind();
+        warningPlayer.play();
+      }
+      fill(255, 0, 0);
+      stroke(255);
+      strokeWeight(10);
+      rect(15, 15, 600, 100);
+      fill(0);
+      stroke(0);
+      strokeWeight(1);
+    }
+  }
+  
   private void emptyBar(){
     if (fill > 0) {
+      gameOver = false;
       fill -= fillSize;
     } else if (fill <= 0) {
       fill = 0;
-      game.gameOver();
+      game.gameIsOver();
     }
     noStroke();
     fill(255);

@@ -25,6 +25,8 @@ Minim minim;
 // Menu and dive music by Eric Skiff (http://ericskiff.com/music/)
 AudioPlayer menuPlayer;
 AudioPlayer divePlayer;
+AudioPlayer selectPlayer;
+AudioPlayer warningPlayer;
 
 // Fonts
 PFont biggerFont;
@@ -39,10 +41,16 @@ public void setup(){
   minim = new Minim(this);
   menuPlayer = minim.loadFile("data/02_Underclocked_(underunderclocked_mix).mp3", 2048);
   divePlayer = minim.loadFile("data/07_We're_the_Resistors.mp3", 2048);
+  selectPlayer = minim.loadFile("data/select.wav", 2048);
+  warningPlayer = minim.loadFile("data/Warning_sound.wav", 2048);
   menuPlayer.loop();
   menuPlayer.pause();
   divePlayer.loop();
   divePlayer.pause();
+  selectPlayer.loop(1);
+  selectPlayer.pause();
+  warningPlayer.loop(1);
+  warningPlayer.pause();
 }
 
 public void draw(){
