@@ -51,16 +51,21 @@ public class Menu {
     if (((int)millis()/600)%2 == 0) {
       fill(0);
       stroke(0);
-      if (select == 0) {
-        triangle(340, 500, 310, 480, 310, 520);
-      } else if (select == 1) {
-        triangle(340, 550, 310, 530, 310, 570);
-      } else if (select == 2) {
-        triangle(340, 600, 310, 580, 310, 620);
-      } else if (select == 3) {
-        triangle(340, 650, 310, 630, 310, 670);
-      }
+    } else {
+      fill(0, 30);
+      stroke(0, 30);
     }
+    if (select == 0) {
+      triangle(340, 500, 310, 480, 310, 520);
+    } else if (select == 1) {
+      triangle(340, 550, 310, 530, 310, 570);
+    } else if (select == 2) {
+      triangle(340, 600, 310, 580, 310, 620);
+    } else if (select == 3) {
+      triangle(340, 650, 310, 630, 310, 670);
+    }
+    fill(0);
+    stroke(0);
   }
   
   public void drawHelp(){
@@ -82,19 +87,17 @@ public class Menu {
   }
   
   public void drawHigh(){
-    String scores = " 1. 10:20 - AAA\n" +
-    " 2. 09:58:29 - AAA\n" +
-    " 3. 09:30:24 - AAA\n" +
-    " 4. 09:01:57 - AAA\n" +
-    " 5. 08:59:35 - AAA\n" +
-    " 6. 08:58:48 - AAA\n" +
-    " 7. 08:30:24 - AAA\n" +
-    " 8. 08:00:51 - AAA\n" +
-    " 9. 07:43:43 - AAA\n" +
-    "10. 06:59:12 - AAA\n" +
-    "---------------\n" +
-    "38. 01:23:34 - AAA\n" +
-    "39. 01:00:51 - AAA\n";
+    String scores = "";
+    for (int i = 0; i < 10; i++) {
+      if (i < 9) {
+        scores += " ";
+      }
+      scores += (i+1) + ". " + highScores[i] + "\n";
+    }
+    scores += "------------------\n";
+    for (int i = highScores.length - 3; i < highScores.length; i++) {
+      scores += (i+1) + ". " + highScores[i] + "\n";
+    }
     header("HIGH SCORES");
     textAlign(CENTER, CENTER);
     rectMode(CENTER);

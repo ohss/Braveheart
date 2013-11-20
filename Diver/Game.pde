@@ -1,14 +1,41 @@
 /**
 Visual representation for the background
 */
+import java.util.Arrays;
 
 public class Game {
+  String playerName = "AAA";
+  int typed = 0;
   
   public void draw(){
     fill(135, 206, 235);
     rect(0, 0, 1000, 800);
-    String time = calcTime();
-    drawStats(time);
+    if (!gameOver) {
+      currentTime = calcTime();
+    }
+    drawStats(currentTime);
+  }
+  
+  public void saveScore(){
+    fill(0, 50);
+    rect(0, 0, 1000, 800);
+    fill(0);
+    textAlign(CENTER);
+    textSize(72);
+    text("SAVE SCORE", 500, 200);
+    textSize(28);
+    text("Your score: " + currentTime, 500, 300);
+    text("Your name: " + playerName, 500, 400);
+    String blinkingCursor = "           ";
+    for (int i = 0; i <= typed; i++) {
+      blinkingCursor += " ";
+    }
+    blinkingCursor += (frameCount/10 % 2 == 0 ? "_" : " ");
+    for (int i = 0; i <= (2-typed); i++) {
+      blinkingCursor += " ";
+    }
+    text(blinkingCursor, 500, 400);
+    text("Press ENTER to save", 500, 500);
   }
   
   private void drawStats(String time){
@@ -112,6 +139,45 @@ public class Game {
     diveStart = 0;
     diveEnd = millis();
     mainMenu = true;
+  }
+  
+  public void userTyped(){
+    if (key != CODED) {
+      if (key == BACKSPACE) {
+        if (typed == 0) {
+          playerName = "A" + playerName.substring(1, 3);
+        }  else if (typed == 1) {
+          playerName = playerName.substring(0, 1) + "A" + playerName.substring(2, 3);
+          typed = 0;
+        } else if (typed == 2) {
+          playerName = playerName.substring(0, 2) + "A";
+          typed = 1;
+        }
+      } else if (key == ENTER || key == RETURN) {
+        int origLength = highScores.length;
+        highScores = Arrays.copyOf(highScores, origLength+1);
+        highScores[origLength] = currentTime + " - " + playerName;
+        saveHighScores();
+        loadHighScores();
+        currentTime = "00:00:00";
+        playerName = "AAA";
+        mainMenu = true;
+        gameOver = false;
+        menu.highScore = true;
+      } else if (Character.isLetter(key)) {
+        char upKey = Character.toUpperCase(key);
+        if (typed == 0) {
+          playerName = upKey + playerName.substring(1, 3);
+          typed = 1;
+        } else if (typed == 1) {
+          playerName = playerName.substring(0, 1) + upKey + playerName.substring(2, 3);
+          typed = 2;
+        } else {
+          playerName = playerName.substring(0, 2) + upKey;
+          typed = 2;
+        }
+      }
+    }
   }
   
   public void gameIsOver(){
