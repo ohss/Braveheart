@@ -38,6 +38,7 @@ public void setup(){
 }
 
 public void draw(){
+  //heartRateMonitor.measureHeartRate();
   game.draw();
   h2oBar.draw();
   player.draw();
@@ -57,6 +58,9 @@ public void draw(){
       divePlayer.play();
     }
   }
+
+  //text(Float.toString(heartRateMonitor.getPulse()), 10,20);
+
 }
 
 public void keyPressed() {
