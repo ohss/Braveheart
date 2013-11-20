@@ -3,6 +3,8 @@ Basic module for the game Diver
 by the group Braveheart
 */
 import ddf.minim.*;
+import java.util.Arrays;
+import java.util.Collections;
 
 // Required objects for the game to play
 Game game = new Game();
@@ -15,26 +17,34 @@ Menu menu = new Menu();
 // Required flags
 boolean mainMenu = true;
 boolean countDown = false;
+boolean gameOver = false;
+
+// Required variables
+String[] highScores;
 int countdownStart = 0;
+int diveStart = 0;
+int diveEnd = 0;
+String currentTime = "00:00:00";
 
 // Audio players
 Minim minim;
-// Menu and dive music by Eric Skiff (http://ericskiff.com/music/)
+AudioPlayer selectPlayer;
+AudioPlayer warningPlayer;
 AudioPlayer menuPlayer;
 AudioPlayer divePlayer;
+
+// Fonts
+PFont biggerFont;
+PFont smallerFont;
 
 public void setup(){
   size(1000,800);
   background(135, 206, 235);
-  PFont gameFont = loadFont("PressStart2P-48.vlw");
-  textFont(gameFont);
-  minim = new Minim(this);
-  menuPlayer = minim.loadFile("data/02_Underclocked_(underunderclocked_mix).mp3", 2048);
-  divePlayer = minim.loadFile("data/07_We're_the_Resistors.mp3", 2048);
-  menuPlayer.loop();
-  menuPlayer.pause();
-  divePlayer.loop();
-  divePlayer.pause();
+  biggerFont = loadFont("PressStart2P-150.vlw");
+  smallerFont = loadFont("PressStart2P-48.vlw");
+  textFont(smallerFont);
+  loadMusics();
+  loadHighScores();
 }
 
 public void draw(){
@@ -53,6 +63,8 @@ public void draw(){
   } else if (countDown) {
     menuPlayer.pause();
     game.drawCountdown();
+  } else if (!mainMenu && gameOver) {
+    game.saveScore();
   } else {
     if (!divePlayer.isPlaying()) {
       divePlayer.play();
@@ -66,7 +78,34 @@ public void draw(){
 public void keyPressed() {
   if (mainMenu) {
     menu.keyPressed();
+  } else if (!mainMenu && gameOver) {
+    game.userTyped();
   } else {
     game.keyPressed();
   }
+}
+
+private void loadMusics(){
+  minim = new Minim(this);
+  menuPlayer = minim.loadFile("data/02_Underclocked_(underunderclocked_mix).mp3", 2048);
+  divePlayer = minim.loadFile("data/07_We're_the_Resistors.mp3", 2048);
+  selectPlayer = minim.loadFile("data/select.wav", 2048);
+  warningPlayer = minim.loadFile("data/Warning_sound.wav", 2048);
+  menuPlayer.loop();
+  menuPlayer.pause();
+  divePlayer.loop();
+  divePlayer.pause();
+  selectPlayer.loop(1);
+  selectPlayer.pause();
+  warningPlayer.loop(1);
+  warningPlayer.pause();
+}
+
+public void loadHighScores(){
+  highScores = loadStrings("data/scores.txt");
+  Arrays.sort(highScores, Collections.reverseOrder());
+}
+
+public void saveHighScores(){
+  saveStrings("data/scores.txt", highScores);
 }
