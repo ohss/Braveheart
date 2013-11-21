@@ -6,13 +6,16 @@ import ddf.minim.*;
 import java.util.Arrays;
 import java.util.Collections;
 
+//System variables
+int framerate = 30;
+
 // Required objects for the game to play
 Game game = new Game();
 H2OBar h2oBar = new H2OBar();
 Player player = new Player();
 Water water = new Water();
 Menu menu = new Menu();
-//HeartRateMonitor heartRateMonitor = new HeartRateMonitor(this);
+HeartRateMonitor heartRateMonitor;
 
 // Required flags
 boolean mainMenu = true;
@@ -38,17 +41,23 @@ PFont biggerFont;
 PFont smallerFont;
 
 public void setup(){
+  frameRate(framerate);
+
   size(1000,800);
   background(135, 206, 235);
+
+  heartRateMonitor = new HeartRateMonitor(framerate, "Heart Rate", this);
+  heartRateMonitor.start();
+
   biggerFont = loadFont("PressStart2P-150.vlw");
   smallerFont = loadFont("PressStart2P-48.vlw");
   textFont(smallerFont);
+
   loadMusics();
   loadHighScores();
 }
 
 public void draw(){
-  //heartRateMonitor.measureHeartRate();
   game.draw();
   h2oBar.draw();
   player.draw();
@@ -70,8 +79,7 @@ public void draw(){
       divePlayer.play();
     }
   }
-
-  //text(Float.toString(heartRateMonitor.getPulse()), 10,20);
+  text(Float.toString(heartRateMonitor.getPulse()), 10,20);
 
 }
 
