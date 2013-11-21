@@ -7,43 +7,44 @@ import java.util.Arrays;
 import java.util.Collections;
 
 //System variables
-int framerate = 30;
+private int framerate = 60;
 
 // Required objects for the game to play
-Game game = new Game();
-H2OBar h2oBar = new H2OBar();
-Player player = new Player();
-Water water = new Water();
-Menu menu = new Menu();
-HeartRateMonitor heartRateMonitor;
+private Game game = new Game();
+private H2OBar h2oBar = new H2OBar();
+private Player player = new Player();
+private Water water = new Water();
+private Menu menu = new Menu();
+private HeartRateMonitor heartRateMonitor;
 
 // Required flags
-boolean mainMenu = true;
-boolean countDown = false;
-boolean gameOver = false;
+private boolean mainMenu = true;
+private boolean countDown = false;
+private boolean gameOver = false;
 
 // Required variables
-String[] highScores;
-int countdownStart = 0;
-int diveStart = 0;
-int diveEnd = 0;
-String currentTime = "00:00:00";
+private String[] highScores;
+private int countdownStart = 0;
+private int diveStart = 0;
+private int diveEnd = 0;
+private String currentTime = "00:00:00";
 
 // Audio players
-Minim minim;
-AudioPlayer selectPlayer;
-AudioPlayer warningPlayer;
-AudioPlayer menuPlayer;
-AudioPlayer divePlayer;
+protected Minim minim;
+protected AudioPlayer selectPlayer;
+protected AudioPlayer warningPlayer;
+protected AudioPlayer menuPlayer;
+protected AudioPlayer divePlayer;
+protected AudioPlayer heartBeatSound;
 
 // Fonts
-PFont biggerFont;
-PFont smallerFont;
+private PFont biggerFont;
+private PFont smallerFont;
 
 public void setup(){
   frameRate(framerate);
 
-  size(1000,800);
+  size(1000,800,P2D);
   background(135, 206, 235);
 
   heartRateMonitor = new HeartRateMonitor(framerate, "Heart Rate", this);
@@ -99,6 +100,7 @@ private void loadMusics(){
   divePlayer = minim.loadFile("data/07_We're_the_Resistors.mp3", 2048);
   selectPlayer = minim.loadFile("data/select.wav", 2048);
   warningPlayer = minim.loadFile("data/Warning_sound.wav", 2048);
+  heartBeatSound = minim.loadFile("data/beat.wav", 2048);
   menuPlayer.loop();
   menuPlayer.pause();
   divePlayer.loop();
@@ -107,6 +109,13 @@ private void loadMusics(){
   selectPlayer.pause();
   warningPlayer.loop(1);
   warningPlayer.pause();
+  heartBeatSound.loop(1);
+  heartBeatSound.pause();
+}
+
+public void playHeartBeatSound(){
+  //heartBeatSound.rewind();
+  //heartBeatSound.play();
 }
 
 public void loadHighScores(){

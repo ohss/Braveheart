@@ -2,6 +2,7 @@ import processing.serial.*;
 import cc.arduino.*;
 
 public class HeartRateMonitor extends Thread {
+  private Diver parent;
   private boolean running;
   private int wait;
   private String id;
@@ -19,11 +20,13 @@ public class HeartRateMonitor extends Thread {
   private float bpm = 0;
   private int index = 0;
 
-  public HeartRateMonitor(int framerate, String name, PApplet parent) {
-    wait = 1000/framerate;
-    id = name;
-    running = false;
-    arduino = new Arduino(parent, Arduino.list()[0], 57600);
+  //Constructor
+  public HeartRateMonitor(int framerate, String name, Diver parent) {
+    this.parent = parent;
+    this.wait = 1000/framerate;
+    this.id = name;
+    this.running = false;
+    this.arduino = new Arduino(parent, Arduino.list()[0], 57600);
     arduino.pinMode(ARDUINO_PULSE_IN, Arduino.INPUT);
   }
 
@@ -57,6 +60,7 @@ public class HeartRateMonitor extends Thread {
       interval = now - beatOn;
       if (now - beatOff > 200) {
         state = Arduino.HIGH;
+        parent.playHeartBeatSound();
         println(interval);
         beatOn = now;
         if (index < 5) {
@@ -82,5 +86,4 @@ public class HeartRateMonitor extends Thread {
   public float getPulse() {
     return bpm;
   }
-
 }
