@@ -22,7 +22,8 @@ public class HeartRateMonitor extends Thread {
   private int index = 0;
   private float bpm = 0;
 
-  private LinkedList<Integer> timestamps = new LinkedList<Integer>();
+  private LinkedList<Integer> lastFiveHeartbeats = new LinkedList<Integer>();
+
 
   float time = 0; //for debugging and running without arduino
   int timeReset = 0;
@@ -36,7 +37,7 @@ public class HeartRateMonitor extends Thread {
     this.arduino = new Arduino(parent, Arduino.list()[0], 57600);
     arduino.pinMode(ARDUINO_PULSE_IN, Arduino.INPUT);
     for (int i = 0; i < 5; i++) {
-      timestamps.add(0);
+      lastFiveHeartbeats.add(60);
     }
   }
 
@@ -87,12 +88,12 @@ public class HeartRateMonitor extends Thread {
       interval = now - beatOn;
       if (now - beatOff > 200) {
         state = Arduino.HIGH;
-        parent.playHeartBeatSound();
         println(interval);
         beatOn = now;
-        timestamps.add(interval);
-        timestamps.removeFirst();
-        Iterator it = timestamps.iterator();
+        parent.heartBeatSound.trigger();
+        lastFiveHeartbeats.add(interval);
+        lastFiveHeartbeats.removeFirst();
+        Iterator it = lastFiveHeartbeats.iterator();
         while (it.hasNext()) {
           int next = (Integer) it.next();
           totalInterval += next;
@@ -113,4 +114,5 @@ public class HeartRateMonitor extends Thread {
   public float getPulse() {
     return bpm;
   }
+
 }

@@ -35,7 +35,8 @@ protected AudioPlayer selectPlayer;
 protected AudioPlayer warningPlayer;
 protected AudioPlayer menuPlayer;
 protected AudioPlayer divePlayer;
-protected AudioPlayer heartBeatSound;
+protected AudioSample heartBeatSound;
+
 
 // Fonts
 private PFont biggerFont;
@@ -46,6 +47,7 @@ public void setup(){
 
   size(1000,800,P2D);
   background(135, 206, 235);
+  loadMusics();
 
   heartRateMonitor = new HeartRateMonitor(framerate, "Heart Rate", this);
   game = new Game(heartRateMonitor);
@@ -60,7 +62,6 @@ public void setup(){
   smallerFont = loadFont("PressStart2P-48.vlw");
   textFont(smallerFont);
 
-  loadMusics();
   loadHighScores();
 }
 
@@ -104,7 +105,7 @@ private void loadMusics(){
   divePlayer = minim.loadFile("data/07_We're_the_Resistors.mp3", 2048);
   selectPlayer = minim.loadFile("data/select.wav", 2048);
   warningPlayer = minim.loadFile("data/Warning_sound.wav", 2048);
-  heartBeatSound = minim.loadFile("data/beat.wav", 2048);
+  heartBeatSound = minim.loadSample("data/beat.wav", 2048);
   menuPlayer.loop();
   menuPlayer.pause();
   divePlayer.loop();
@@ -113,13 +114,6 @@ private void loadMusics(){
   selectPlayer.pause();
   warningPlayer.loop(1);
   warningPlayer.pause();
-  heartBeatSound.loop(1);
-  heartBeatSound.pause();
-}
-
-public void playHeartBeatSound(){
-  //heartBeatSound.rewind();
-  //heartBeatSound.play();
 }
 
 public void loadHighScores(){
