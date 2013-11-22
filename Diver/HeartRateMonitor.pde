@@ -20,6 +20,9 @@ public class HeartRateMonitor extends Thread {
   private float bpm = 0;
   private int index = 0;
 
+  float time = 0; //for debugging and running without arduino
+  int timeReset = 0;
+
   //Constructor
   public HeartRateMonitor(int framerate, String name, Diver parent) {
     this.parent = parent;
@@ -36,9 +39,27 @@ public class HeartRateMonitor extends Thread {
     println("Starting thread (will execute every " + wait + " milliseconds.)");
   }
 
+  // public void run() {
+  //   while (running) {
+  //     read();
+  //     try {
+  //       sleep((long)(wait));
+  //     } catch (Exception e) {
+  //     }
+  //   }
+  // }
+
+  //Dummy method for running and debugging without Arduino
   public void run() {
     while (running) {
-      read();
+      float noise = 50*noise(0.05,time);
+      bpm = 50+noise;
+      time = time+.02;
+      timeReset++;
+      if (timeReset > 1000) {
+        time = 0;
+        timeReset = 0;
+      }
       try {
         sleep((long)(wait));
       } catch (Exception e) {

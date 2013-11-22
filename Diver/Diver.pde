@@ -10,11 +10,11 @@ import java.util.Collections;
 private int framerate = 60;
 
 // Required objects for the game to play
-private Game game = new Game();
-private H2OBar h2oBar = new H2OBar();
-private Player player = new Player();
-private Water water = new Water();
-private Menu menu = new Menu();
+private Game game;
+private H2OBar h2oBar;
+private Player player;
+private Water water;
+private Menu menu;
 private HeartRateMonitor heartRateMonitor;
 
 // Required flags
@@ -48,6 +48,12 @@ public void setup(){
   background(135, 206, 235);
 
   heartRateMonitor = new HeartRateMonitor(framerate, "Heart Rate", this);
+  game = new Game(heartRateMonitor);
+  h2oBar = new H2OBar();
+  player = new Player();
+  water = new Water();
+  menu = new Menu();
+
   heartRateMonitor.start();
 
   biggerFont = loadFont("PressStart2P-150.vlw");
@@ -80,8 +86,6 @@ public void draw(){
       divePlayer.play();
     }
   }
-  text(Float.toString(heartRateMonitor.getPulse()), 10,20);
-
 }
 
 public void keyPressed() {

@@ -6,7 +6,12 @@ import java.util.Arrays;
 public class Game {
   String playerName = "AAA";
   int typed = 0;
-  
+  HeartRateMonitor heartRateMonitor;
+
+  public Game(HeartRateMonitor heartRateMonitor) {
+    this.heartRateMonitor = heartRateMonitor;
+  }
+
   public void draw(){
     fill(135, 206, 235);
     rect(0, 0, 1000, 800);
@@ -15,7 +20,7 @@ public class Game {
     }
     drawStats(currentTime);
   }
-  
+
   public void saveScore(){
     fill(0, 50);
     rect(0, 0, 1000, 800);
@@ -37,24 +42,24 @@ public class Game {
     text(blinkingCursor, 500, 400);
     text("Press ENTER to save", 500, 500);
   }
-  
+
   private void drawStats(String time){
     textAlign(RIGHT, BOTTOM);
     // Do the outline for text
     textSize(28);
     fill(0);
-    text("HEARTRATE", 976, 49);
+    text("HEARTRATE "+Integer.toString((int)heartRateMonitor.getPulse()), 976, 49);
     text(time, 976, 99);
     // Do the text
     textSize(28);
     fill(255);
-    text("HEARTRATE", 975, 50);
+    text("HEARTRATE "+Integer.toString((int)heartRateMonitor.getPulse()), 975, 50);
     text(time, 975, 100);
     // Reset settings
     fill(0);
     textAlign(CENTER);
   }
-  
+
   private String calcTime(){
     String finMinutes = "00";
     String finSeconds = "00";
@@ -94,7 +99,7 @@ public class Game {
     }
     return finMinutes + ":" + finSeconds + ":" + finTenths;
   }
-  
+
   public void drawCountdown(){
     fill(0, 30);
     rect(0, 0, 1000, 800);
@@ -127,20 +132,20 @@ public class Game {
       diveStart = millis();
     }
   }
-  
+
   private void drawCDNumbers(String num){
     textFont(biggerFont);
     textAlign(CENTER, CENTER);
     textSize(150);
     text(num, 500, 400);
   }
-  
+
   public void keyPressed(){
     diveStart = 0;
     diveEnd = millis();
     mainMenu = true;
   }
-  
+
   public void userTyped(){
     if (key != CODED) {
       if (key == BACKSPACE) {
@@ -179,7 +184,7 @@ public class Game {
       }
     }
   }
-  
+
   public void gameIsOver(){
     diveStart = 0;
     diveEnd = millis();
