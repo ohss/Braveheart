@@ -15,12 +15,12 @@ private H2OBar h2oBar;
 private Player player;
 private Water water;
 private Menu menu;
-private HeartRateMonitor heartRateMonitor;
+protected HeartRateMonitor heartRateMonitor;
 
 // Required flags
 private boolean mainMenu = true;
 private boolean countDown = false;
-private boolean gameOver = false;
+private boolean gameOver = true;
 
 // Required variables
 private String[] highScores;
@@ -36,6 +36,7 @@ protected AudioPlayer warningPlayer;
 protected AudioPlayer menuPlayer;
 protected AudioPlayer divePlayer;
 protected AudioSample heartBeatSound;
+protected AudioSample gameOverSound;
 
 
 // Fonts
@@ -106,6 +107,7 @@ private void loadMusics(){
   selectPlayer = minim.loadFile("data/select.wav", 2048);
   warningPlayer = minim.loadFile("data/Warning_sound.wav", 2048);
   heartBeatSound = minim.loadSample("data/beat.wav", 2048);
+  gameOverSound = minim.loadSample("data/gameOver.wav", 2048);
   menuPlayer.loop();
   menuPlayer.pause();
   divePlayer.loop();

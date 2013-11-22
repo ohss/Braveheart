@@ -188,6 +188,10 @@ public class Game {
   public void gameIsOver(){
     diveStart = 0;
     diveEnd = millis();
+    selectPlayer.rewind();
+    selectPlayer.play();
+    divePlayer.pause();
+    menuPlayer.play();
     gameOver = true;
   }
 }

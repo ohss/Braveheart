@@ -47,33 +47,33 @@ public class HeartRateMonitor extends Thread {
     println("Starting thread (will execute every " + wait + " milliseconds.)");
   }
 
-  public void run() {
-    while (running) {
-      read();
-      try {
-        sleep((long)(wait));
-      } catch (Exception e) {
-      }
-    }
-  }
-
-  // //Dummy method for running and debugging without arduino
   // public void run() {
   //   while (running) {
-  //     float noise = 50*noise(0.05,time);
-  //     bpm = 50+noise;
-  //     time = time+.02;
-  //     timeReset++;
-  //     if (timeReset > 1000) {
-  //       time = 0;
-  //       timeReset = 0;
-  //     }
+  //     read();
   //     try {
   //       sleep((long)(wait));
   //     } catch (Exception e) {
   //     }
   //   }
   // }
+
+  //Dummy method for running and debugging without arduino
+  public void run() {
+    while (running) {
+      float noise = 50*noise(0.05,time);
+      bpm = 50+noise;
+      time = time+.02;
+      timeReset++;
+      if (timeReset > 1000) {
+        time = 0;
+        timeReset = 0;
+      }
+      try {
+        sleep((long)(wait));
+      } catch (Exception e) {
+      }
+    }
+  }
 
   public void quit() {
     System.out.println("Quitting.");
