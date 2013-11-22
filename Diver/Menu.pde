@@ -6,13 +6,14 @@ public class Menu {
   boolean help = false;
   boolean highScore = false;
   boolean credits = false;
-  
+  boolean heartRateError = false;
+
   /* IN SELECT ATTRIBUTE:
   * 0 equals start game, 1 equals instructions,
   * 2 equals high scores, 3 equals credits
   */
   int select = 0;
-  
+
   public void draw(){
     fill(0, 50);
     rect(0, 0, 1000, 800);
@@ -26,9 +27,11 @@ public class Menu {
       drawHigh();
     } else if (credits) {
       drawCredits();
+    } else if (heartRateError) {
+      drawHeartRateError();
     }
   }
-  
+
   private void drawMain(){
     // Draw the header and subheader
     textSize(100);
@@ -40,14 +43,14 @@ public class Menu {
     for (int i = 295; i < 306; i++) {
       text("Studios", 750, i);
     }
-    
+
     textSize(28);
     textAlign(LEFT, CENTER);
     text("Start game", 350, 500);
     text("Instructions", 350, 550);
     text("High scores", 350, 600);
     text("Credits", 350, 650);
-    
+
     if (((int)millis()/600)%2 == 0) {
       fill(0);
       stroke(0);
@@ -67,7 +70,7 @@ public class Menu {
     fill(0);
     stroke(0);
   }
-  
+
   public void drawHelp(){
     String instructions = "THE OBJECT: The Diver's object is to stay underwater for as long as possible\n\n" +
     "THE CONTROLS: When you start the game, there will be a 10 second countdown. During this period you have to get " +
@@ -85,7 +88,7 @@ public class Menu {
     rectMode(CORNER);
     footer();
   }
-  
+
   public void drawHigh(){
     String scores = "";
     for (int i = 0; i < 10; i++) {
@@ -108,7 +111,7 @@ public class Menu {
     rectMode(CORNER);
     footer();
   }
-  
+
   public void drawCredits(){
     String credits = "* The programming and designing: Team Braveheart (Emmi Peltonen, Lauri Lavanti and Otso Sorvettula)\n\n" +
     "* The menu music: Underclocked (underunderclocked mix) by Eric Skiff (ericskiff.com)\n\n" +
@@ -127,7 +130,20 @@ public class Menu {
     rectMode(CORNER);
     footer();
   }
-  
+
+  public void drawHeartRateError() {
+    String errorNote = "There is an error. Sossy. Adjust the heart rate sensor and try again";
+    header("PROBLEM WITH HEART RATE");
+    textAlign(LEFT, CENTER);
+    rectMode(CENTER);
+    textSize(20);
+    text(errorNote, 500, 400, 800, 550);
+    textSize(28);
+    textAlign(CENTER);
+    rectMode(CORNER);
+    footer();
+  }
+
   private void header(String head){
     textFont(biggerFont);
     textSize(72);
@@ -135,13 +151,13 @@ public class Menu {
     textFont(smallerFont);
     textSize(28);
   }
-  
+
   private void footer(){
     if (((int)millis()/600)%2 == 0) {
       text("Press ENTER to return", 500, 750);
     }
   }
-  
+
   public void keyPressed(){
     if (!help && !highScore && !credits) {
       if (key == CODED) {

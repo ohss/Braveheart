@@ -4,12 +4,11 @@ Visual representation for the background
 import java.util.Arrays;
 
 public class Game {
-  String playerName = "AAA";
-  int typed = 0;
-  HeartRateMonitor heartRateMonitor;
+  private String playerName = "AAA";
+  private int typed = 0;
+  private int heartRate;
 
-  public Game(HeartRateMonitor heartRateMonitor) {
-    this.heartRateMonitor = heartRateMonitor;
+  public Game() {
   }
 
   public void draw(){
@@ -44,20 +43,25 @@ public class Game {
   }
 
   private void drawStats(String time){
-    textAlign(RIGHT, BOTTOM);
-    // Do the outline for text
-    textSize(28);
-    fill(0);
-    text("HEARTRATE "+Integer.toString((int)heartRateMonitor.getPulse()), 976, 49);
-    text(time, 976, 99);
-    // Do the text
-    textSize(28);
-    fill(255);
-    text("HEARTRATE "+Integer.toString((int)heartRateMonitor.getPulse()), 975, 50);
-    text(time, 975, 100);
-    // Reset settings
-    fill(0);
-    textAlign(CENTER);
+    try{
+      heartRate = (int)heartRateMonitor.getPulse();
+      textAlign(RIGHT, BOTTOM);
+      // Do the outline for text
+      textSize(28);
+      fill(0);
+      text("HEARTRATE "+Integer.toString(heartRate), 976, 49);
+      text(time, 976, 99);
+      // Do the text
+      textSize(28);
+      fill(255);
+      text("HEARTRATE "+Integer.toString(heartRate), 975, 50);
+      text(time, 975, 100);
+      // Reset settings
+      fill(0);
+      textAlign(CENTER);
+    }catch (InvalidHeartRate e) {
+      invalidHeartRate();
+    }
   }
 
   private String calcTime(){

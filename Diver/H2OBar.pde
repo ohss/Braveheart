@@ -77,14 +77,19 @@ public class H2OBar {
   }
 
   private float oxygenRate() {
-    now = millis();
-    if (now - lastMeasurement > 250) {
-      lastMeasurement = now;
-      float retVal = oxygenEmptyMultiplier*pow(heartRateMonitor.getPulse(),2);
-      println("Pulse" + heartRateMonitor.getPulse()+" Oxygen rate: "+retVal);
-      return (retVal);
-    } else {
-     return 0;
+    try{
+      now = millis();
+      if (now - lastMeasurement > 250) {
+        lastMeasurement = now;
+        float retVal = oxygenEmptyMultiplier*pow(heartRateMonitor.getPulse(),2);
+        println("Pulse" + heartRateMonitor.getPulse()+" Oxygen rate: "+retVal);
+        return (retVal);
+      } else {
+       return 0;
+      }
+    }catch (InvalidHeartRate e) {
+      invalidHeartRate();
+      return 0;
     }
   }
 }

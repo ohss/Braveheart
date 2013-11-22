@@ -111,8 +111,12 @@ public class HeartRateMonitor extends Thread {
     }
   }
 
-  public float getPulse() {
-    return bpm;
+  public float getPulse() throws InvalidHeartRate {
+    if (30 < bpm && bpm > 200) {
+      return bpm;
+    } else {
+      throw new InvalidHeartRate();
+    }
   }
 
 }

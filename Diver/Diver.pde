@@ -51,11 +51,11 @@ public void setup(){
   loadMusics();
 
   heartRateMonitor = new HeartRateMonitor(framerate, "Heart Rate", this);
-  game = new Game(heartRateMonitor);
+  game = new Game();
+  menu = new Menu();
   h2oBar = new H2OBar();
   player = new Player();
   water = new Water();
-  menu = new Menu();
 
   heartRateMonitor.start();
 
@@ -107,7 +107,6 @@ private void loadMusics(){
   selectPlayer = minim.loadFile("data/select.wav", 2048);
   warningPlayer = minim.loadFile("data/Warning_sound.wav", 2048);
   heartBeatSound = minim.loadSample("data/beat.wav", 2048);
-  gameOverSound = minim.loadSample("data/gameOver.wav", 2048);
   menuPlayer.loop();
   menuPlayer.pause();
   divePlayer.loop();
@@ -125,4 +124,14 @@ public void loadHighScores(){
 
 public void saveHighScores(){
   saveStrings("data/scores.txt", highScores);
+}
+
+public void invalidHeartRate() {
+  mainMenu = true;
+  countDown = false;
+  gameOver = true;
+  menu.help = false;
+  menu.highScore = false;
+  menu.credits = false;
+  menu.heartRateError = true;
 }
