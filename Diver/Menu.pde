@@ -112,9 +112,8 @@ public class Menu {
   public void drawCredits(){
     String credits = "* The programming and designing: Team Braveheart (Emmi Peltonen, Lauri Lavanti and Otso Sorvettula)\n\n" +
     "* The menu music: Underclocked (underunderclocked mix) by Eric Skiff (ericskiff.com)\n\n" +
-    "* The countdown music: \n\n" +
+    "* The countdown music: Red Alert FX 001 from woolyss.com/chipmusic-samples.php\n\n" +
     "* The underwater music: We're the Resistors by Eric Skiff (ericskiff.com)\n\n" +
-    "* The player sprite: \n\n" +
     "* The game's font: Press Start 2P by codeman38 (fontspace.com)\n\n" +
     "* Other sounds made with Bfxr (bfxr.net)";
     header("CREDITS");

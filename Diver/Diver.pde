@@ -35,6 +35,7 @@ protected AudioPlayer selectPlayer;
 protected AudioPlayer warningPlayer;
 protected AudioPlayer menuPlayer;
 protected AudioPlayer divePlayer;
+protected AudioPlayer countDownPlayer;
 protected AudioSample heartBeatSound;
 protected AudioSample gameOverSound;
 
@@ -81,6 +82,10 @@ public void draw(){
     menu.draw();
   } else if (countDown) {
     menuPlayer.pause();
+    if (!countDownPlayer.isPlaying()) {
+      countDownPlayer.loop();
+      countDownPlayer.play();
+    }
     game.drawCountdown();
   } else if (!mainMenu && gameOver) {
     game.saveScore();
@@ -104,13 +109,13 @@ public void keyPressed() {
 private void loadMusics(){
   minim = new Minim(this);
   menuPlayer = minim.loadFile("data/02_Underclocked_(underunderclocked_mix).mp3", 2048);
+  countDownPlayer = minim.loadFile("data/Red_Alert_FX_001.wav", 2048);
   divePlayer = minim.loadFile("data/07_We're_the_Resistors.mp3", 2048);
   selectPlayer = minim.loadFile("data/select.wav", 2048);
   warningPlayer = minim.loadFile("data/Warning_sound.wav", 2048);
   heartBeatSound = minim.loadSample("data/beat.wav", 2048);
-  menuPlayer.loop();
   menuPlayer.pause();
-  divePlayer.loop();
+  countDownPlayer.pause();
   divePlayer.pause();
   selectPlayer.loop(1);
   selectPlayer.pause();
