@@ -107,7 +107,6 @@ private void loadMusics(){
   selectPlayer = minim.loadFile("data/select.wav", 2048);
   warningPlayer = minim.loadFile("data/Warning_sound.wav", 2048);
   heartBeatSound = minim.loadSample("data/beat.wav", 2048);
-  gameOverSound = minim.loadSample("data/gameOver.wav", 2048);
   menuPlayer.loop();
   menuPlayer.pause();
   divePlayer.loop();
