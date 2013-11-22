@@ -75,6 +75,7 @@ public void draw(){
   if (mainMenu) {
     divePlayer.pause();
     if (!menuPlayer.isPlaying()) {
+      menuPlayer.loop();
       menuPlayer.play();
     }
     menu.draw();

@@ -7,6 +7,8 @@ public class Game {
   String playerName = "AAA";
   int typed = 0;
   HeartRateMonitor heartRateMonitor;
+  PImage heart = loadImage("data/heart_color.png");
+  PImage hourglass = loadImage("data/hourglass_color.png");
 
   public Game(HeartRateMonitor heartRateMonitor) {
     this.heartRateMonitor = heartRateMonitor;
@@ -45,15 +47,18 @@ public class Game {
 
   private void drawStats(String time){
     textAlign(RIGHT, BOTTOM);
+    rectMode(CORNER);
     // Do the outline for text
     textSize(28);
     fill(0);
-    text("HEARTRATE "+Integer.toString((int)heartRateMonitor.getPulse()), 976, 49);
+    text("" + (int)heartRateMonitor.getPulse(), 976, 49);
     text(time, 976, 99);
     // Do the text
     textSize(28);
     fill(255);
-    text("HEARTRATE "+Integer.toString((int)heartRateMonitor.getPulse()), 975, 50);
+    image(heart, 700, 22);
+    text("" + (int)heartRateMonitor.getPulse(), 975, 50);
+    image(hourglass, 700, 72);
     text(time, 975, 100);
     // Reset settings
     fill(0);
