@@ -14,11 +14,10 @@ public class HeartRateMonitor extends Thread {
 
   private int state = 0;
   private int read = 0;
-  private int now;
+  //private int now;
   private int beatOn = 0;
-  private int beatOff = 0;
-  private int interval = 0;
-  private int totalInterval = 0;
+  //private int beatOff = 0;
+  //private int interval = 0;
   private int index = 0;
   private float bpm = 0;
 
@@ -37,7 +36,7 @@ public class HeartRateMonitor extends Thread {
     this.arduino = new Arduino(parent, Arduino.list()[0], 57600);
     arduino.pinMode(ARDUINO_PULSE_IN, Arduino.INPUT);
     for (int i = 0; i < 5; i++) {
-      lastFiveHeartbeats.add(60);
+      lastFiveHeartbeats.add(1000);
     }
   }
 
@@ -47,33 +46,33 @@ public class HeartRateMonitor extends Thread {
     println("Starting thread (will execute every " + wait + " milliseconds.)");
   }
 
-  // public void run() {
-  //   while (running) {
-  //     read();
-  //     try {
-  //       sleep((long)(wait));
-  //     } catch (Exception e) {
-  //     }
-  //   }
-  // }
-
-  //Dummy method for running and debugging without arduino
   public void run() {
     while (running) {
-      float noise = 50*noise(0.05,time);
-      bpm = 50+noise;
-      time = time+.02;
-      timeReset++;
-      if (timeReset > 1000) {
-        time = 0;
-        timeReset = 0;
-      }
+      read();
       try {
         sleep((long)(wait));
       } catch (Exception e) {
       }
     }
   }
+
+  // //Dummy method for running and debugging without arduino
+  // public void run() {
+  //   while (running) {
+  //     float noise = 50*noise(0.05,time);
+  //     bpm = 50+noise;
+  //     time = time+.02;
+  //     timeReset++;
+  //     if (timeReset > 1000) {
+  //       time = 0;
+  //       timeReset = 0;
+  //     }
+  //     try {
+  //       sleep((long)(wait));
+  //     } catch (Exception e) {
+  //     }
+  //   }
+  // }
 
   public void quit() {
     System.out.println("Quitting.");
@@ -84,31 +83,36 @@ public class HeartRateMonitor extends Thread {
   private void read() {
     read = arduino.digitalRead(2);
     if (read == Arduino.HIGH && state == Arduino.LOW){
-      now = millis();
-      interval = now - beatOn;
-      if (now - beatOff > 200) {
+      int now = millis();
+      int interval = now - beatOn;
+      int lastInterval = (Integer)lastFiveHeartbeats.getLast();
+      //if (now - beatOff > 200) {
+      if (interval > lastInterval*0.60 || lastInterval > 2000) {
+        beatOn = now;
         state = Arduino.HIGH;
         println(interval);
-        beatOn = now;
-        parent.heartBeatSound.trigger();
         lastFiveHeartbeats.add(interval);
         lastFiveHeartbeats.removeFirst();
-        Iterator it = lastFiveHeartbeats.iterator();
-        while (it.hasNext()) {
-          int next = (Integer) it.next();
-          totalInterval += next;
-        }
-        bpm = 60000/(float)totalInterval*5;
-        totalInterval = 0;
+        bpm = 60000/(float)totalInterval()*5;
+        parent.heartBeatSound.trigger();
       }
     }
     if (read == Arduino.LOW && state == Arduino.HIGH) {
-      now = millis();
-      if (now - beatOn > 200) {
+      if (millis() - beatOn > 200) {
        state = Arduino.LOW;
-       beatOff = now;
       }
     }
+  }
+
+  private int totalInterval() {
+    int totalInterval = 0;
+    Iterator it = lastFiveHeartbeats.iterator();
+    while (it.hasNext()) {
+      int next = (Integer) it.next();
+      totalInterval += next;
+    }
+    return totalInterval;
+
   }
 
   public float getPulse() {
