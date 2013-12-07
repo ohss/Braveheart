@@ -92,17 +92,17 @@ public void readFile(){
       x++;
     }
     for (Position trav : traversables) {
-      if (traversables.contains(new Position(trav.x-wallSize, trav.y))) {
-        trav.north = true;
+      if (wallPos.contains(new Position((trav.x-wallSize)/wallSize, trav.y/wallSize))) {
+        trav.north = false;
       }
-      if (traversables.contains(new Position(trav.x, trav.y-wallSize))) {
-        trav.east = true;
+      if (wallPos.contains(new Position(trav.x/wallSize, (trav.y-wallSize)/wallSize))) {
+        trav.east = false;
       }
-      if (traversables.contains(new Position(trav.x+wallSize, trav.y))) {
-        trav.south = true;
+      if (wallPos.contains(new Position((trav.x+wallSize)/wallSize, trav.y/wallSize))) {
+        trav.south = false;
       }
-      if (traversables.contains(new Position(trav.x, trav.y+wallSize))) {
-        trav.west = true;
+      if (wallPos.contains(new Position(trav.x/wallSize, (trav.y+wallSize)/wallSize))) {
+        trav.west = false;
       }
     }
     br.close();
@@ -148,10 +148,10 @@ private void setAxes(){
 public class Position {
   public int x;
   public int y;
-  public boolean north = false;
-  public boolean east = false;
-  public boolean south = false;
-  public boolean west = false;
+  public boolean north = true;
+  public boolean east = true;
+  public boolean south = true;
+  public boolean west = true;
   
   public Position(int x, int y) {
     this.x = x;
