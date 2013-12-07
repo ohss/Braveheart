@@ -5,6 +5,7 @@ The visual representation and functionality of the main menu.
 public class Menu {
   boolean help = false;
   boolean credits = false;
+  private final int half = displayWidth/2;
 
   /* IN SELECT ATTRIBUTE:
   * 0 equals start game, 1 equals instructions,
@@ -14,7 +15,7 @@ public class Menu {
 
   public void draw(){
     fill(0, 50);
-    rect(0, 0, 1000, 800);
+    rect(0, 0, displayWidth, displayHeight);
     fill(0);
     textAlign(CENTER);
     if (!help && !credits) {
@@ -29,18 +30,18 @@ public class Menu {
   private void drawMain(){
     // Draw the header and subheader
     textSize(100);
-    text("DIVER", 500, 200);
+    text("DIVER", half, 200);
     textSize(24);
-    text("A game by BraveHeart Studios", 500, 300);
+    text("A game by BraveHeart Studios", half, 300);
     for (int i = 295; i < 306; i++) {
-      text("Studios", 750, i);
+      text("Studios", half+250, i);
     }
 
     textSize(28);
     textAlign(LEFT, CENTER);
-    text("Start game", 350, 500);
-    text("Instructions", 350, 550);
-    text("Credits", 350, 600);
+    text("Start game", half-150, 500);
+    text("Instructions", half-150, 550);
+    text("Credits", half-150, 600);
 
     if (((int)millis()/600)%2 == 0) {
       fill(0);
@@ -50,11 +51,11 @@ public class Menu {
       stroke(0, 30);
     }
     if (select == 0) {
-      triangle(340, 500, 310, 480, 310, 520);
+      triangle(half-160, 500, half-190, 480, half-190, 520);
     } else if (select == 1) {
-      triangle(340, 550, 310, 530, 310, 570);
+      triangle(half-160, 550, half-190, 530, half-190, 570);
     } else if (select == 2) {
-      triangle(340, 600, 310, 580, 310, 620);
+      triangle(half-160, 600, half-190, 580, half-190, 620);
     }
     fill(0);
     stroke(0);
@@ -71,7 +72,7 @@ public class Menu {
     textAlign(LEFT, CENTER);
     rectMode(CENTER);
     textSize(20);
-    text(instructions, 500, 400, 800, 550);
+    text(instructions, half, 400, half+300, 550);
     textSize(28);
     textAlign(CENTER);
     rectMode(CORNER);
@@ -89,7 +90,7 @@ public class Menu {
     textAlign(LEFT, CENTER);
     rectMode(CENTER);
     textSize(20);
-    text(credits, 500, 400, 800, 550);
+    text(credits, half, 400, half+300, 550);
     textSize(28);
     textAlign(CENTER);
     rectMode(CORNER);
@@ -98,13 +99,13 @@ public class Menu {
 
   private void header(String head){
     textSize(72);
-    text(head, 500, 150);
+    text(head, half, 150);
     textSize(28);
   }
 
   private void footer(){
     if (((int)millis()/600)%2 == 0) {
-      text("Press ENTER to return", 500, 750);
+      text("Press ENTER to return", half, 750);
     }
   }
 
@@ -127,6 +128,7 @@ public class Menu {
       if (key == ENTER || key == RETURN) {
         if (select == 0) {
           mainMenu = false;
+          gameOver = false;
         } else if (select == 1) {
           help = true;
         } else if (select == 2) {
