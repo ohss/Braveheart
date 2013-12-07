@@ -4,8 +4,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.File;
 
-// Required elements for drawing the game.
+// Required positions and directions.
 List<Position> wallPos = new ArrayList<Position>();
+Position playerPos;
+String playerD;
+List<Position> traversables = new ArrayList<Position>();
+
+// Required elements for drawing the game.
 List<GardenWall> walls = new ArrayList<GardenWall>();
 Menu menu;
 Player player;
@@ -15,6 +20,7 @@ Sky sky;
 private boolean mainMenu = true;
 private boolean gameOver = true;
 final int wallHeight = 200;
+final int wallSize = 200;
 
 public void setup(){
   size(displayWidth,displayHeight,OPENGL);
@@ -22,9 +28,9 @@ public void setup(){
   noCursor();
   sky = new Sky();
   menu = new Menu();
-  //player = new Player();
   // Tähän tehdään muurit
   readFile();
+  player = new Player();
   for (Position pos : wallPos) {
     walls.add(new GardenWall(pos.x, pos.y));
   }
@@ -37,10 +43,10 @@ boolean sketchFullScreen(){
 public void draw(){
   if (!mainMenu && !gameOver) {
     setAxes();
+    player.setCam();
     sky.draw();
     drawFloor();
     for (GardenWall wall : walls) {
-      println(wall);
       wall.draw();
     }
   }
@@ -55,7 +61,7 @@ public void keyPressed(){
   if (mainMenu) {
     menu.keyPressed();
   } else if (!mainMenu && !gameOver) {
-    //player.keyPressed();
+    player.keyPressed();
   }
 }
 
@@ -70,16 +76,36 @@ public void readFile(){
     br = new BufferedReader(new FileReader(dataPath("testilabyrintti.txt")));
     String line;
     int x = 0;
+    playerD = br.readLine();
     while ((line = br.readLine()) != null) {
       for (int y = 0; y < line.length(); y++) {
         String sub = "" + line.charAt(y);
         if (sub.equals("x")) {
           wallPos.add(new Position(x, y));
+        } else if (sub.equals("a")) {
+          playerPos = new Position(x, y);
+          traversables.add(new Position(x*wallSize, y*wallSize));
+        } else if (sub.equals("o")) {
+          traversables.add(new Position(x*wallSize, y*wallSize));
         }
       }
       x++;
-  }
-  br.close();
+    }
+    for (Position trav : traversables) {
+      if (traversables.contains(new Position(trav.x-wallSize, trav.y))) {
+        trav.north = true;
+      }
+      if (traversables.contains(new Position(trav.x, trav.y-wallSize))) {
+        trav.east = true;
+      }
+      if (traversables.contains(new Position(trav.x+wallSize, trav.y))) {
+        trav.south = true;
+      }
+      if (traversables.contains(new Position(trav.x, trav.y+wallSize))) {
+        trav.west = true;
+      }
+    }
+    br.close();
   } catch (IOException e) {
     e.printStackTrace();
     try {
@@ -122,9 +148,31 @@ private void setAxes(){
 public class Position {
   public int x;
   public int y;
+  public boolean north = false;
+  public boolean east = false;
+  public boolean south = false;
+  public boolean west = false;
   
   public Position(int x, int y) {
     this.x = x;
     this.y = y;
+  }
+  
+  public boolean equals(Object other) {
+    if (other == null) return false;
+    if (other == this) return true;
+    if (!(other instanceof Position)) return false;
+    Position that = (Position) other;
+    return this.x == that.x && this.y == that.y;
+  }
+  
+  public int hashCode() {
+    int result = (int) (x ^ (x >>> 32));
+    result = 31 * result + (int) (y ^ (y >>> 32));
+    return result;
+  }
+  
+  public String toString() {
+    return "X: " + x + ", Y: " + y;
   }
 }

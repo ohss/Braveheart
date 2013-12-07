@@ -129,6 +129,7 @@ public class Menu {
         if (select == 0) {
           mainMenu = false;
           gameOver = false;
+          player.setCam();
         } else if (select == 1) {
           help = true;
         } else if (select == 2) {

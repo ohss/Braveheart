@@ -1,9 +1,90 @@
-/**
-* Code taken/inspired by http://www.openprocessing.org/sketch/25255
-* 
-*/
 
 public class Player {
+ 
+  // Player's location
+  private final float locZ = wallHeight/3*2;
+  private float locX;
+  private float locY;
+  
+  // The location the player is looking at
+  private float lookX;
+  private float lookY;
+  private float lookZ = wallHeight/3*2;
+  
+  // The location of axes to the player.
+  private float upX = 0;
+  private float upY = 0;
+  private float upZ = -1.0;
+  
+  public Player() {
+    locX = playerPos.x*wallSize + (wallSize/2);
+    locY = playerPos.y*wallSize + (wallSize/2);
+    if (playerD.trim().equals("WEST")) {
+      lookX = locX;
+      lookY = locY + 10;
+    } else if (playerD.trim().equals("NORTH")) {
+      lookX = locX - 10;
+      lookY = locY;
+    } else if (playerD.trim().equals("EAST")) {
+      lookX = locX;
+      lookY = locY - 10;
+    } else {
+      lookX = locX + 10;
+      lookY = locY;
+    } 
+  }
+  
+  public void setCam() {
+    camera(locX, locY, locZ, lookX, lookY, lookZ, upX, upY, upZ);
+  }
+  
+  public void keyPressed() {
+    if (key == 'w' || key == 'W') {
+      locX += 10;
+      lookX += 10;
+    }
+    if (key == 's' || key == 'S') {
+      locX -= 10;
+      lookX -= 10;
+    }
+    if (key == 'a' || key == 'A') {
+      locY -= 10;
+      lookY -= 10;
+    }
+    if (key == 'd' || key == 'D') {
+      locY += 10;
+      lookY += 10;
+    }
+    checkCollision();
+  }
+  
+  public void checkCollision() {
+    for (Position trav : traversables) {
+      int minX = trav.x + 30;
+      int minY = trav.y + 30;
+      int maxX = minX + wallSize - 60;
+      int maxY = minY + wallSize - 60;
+      boolean col = false;
+      if (!trav.north && locX < minX && locX > trav.x && locY < (trav.y + wallSize) && locY > trav.y) {
+        col = true;
+      } else if (!trav.east && locY < minY && locY > trav.y && locX < (trav.x + wallSize) && locX > trav.x) {
+        col = true;
+      } else if (!trav.south && locX < (trav.x + wallSize) && locX > maxX && locY < (trav.y + wallSize) && locY > trav.y) {
+        col = true;
+      } else if (!trav.west && locY < (trav.y + wallSize) && locY > maxY && locX < (trav.x + wallSize) && locX > trav.x) {
+        col = true;
+      }
+      if (col) {
+        locX = max(min(locX, maxX), minX);
+        locY = max(min(locY, maxY), minY);
+      }
+    }
+  }
+  
+  /**
+  * Code taken/inspired by http://www.openprocessing.org/sketch/25255
+  */
+  /*
   // Floor has y-value
   final float floorLevel = 0.0;
 
@@ -15,7 +96,7 @@ public class Player {
   sincoslookup taken from http://wiki.processing.org/index.php/Sin/Cos_look-up_table
   @author toxi (http://www.processinghacks.com/user/toxi)
   */
- 
+  /*
   // declare arrays and params for storing sin/cos values
   float sinLUT[];
   float cosLUT[];
@@ -132,5 +213,5 @@ public class Player {
     } else if (zpos>3995) {
       zpos=3995;
     }
-  }
+  }*/
 }

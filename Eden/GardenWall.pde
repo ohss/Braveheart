@@ -1,5 +1,4 @@
 public class GardenWall {
-  final int wallSize = 200;
   int x;
   int y;
   
@@ -48,9 +47,5 @@ public class GardenWall {
       vertex(startX, startY+wallSize, 0);
     }
     endShape(CLOSE);
-  }
-  
-  public String toString() {
-    return "X: " + x + ", Y: " + y;
   }
 }
