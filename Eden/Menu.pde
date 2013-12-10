@@ -5,7 +5,10 @@ The visual representation and functionality of the main menu.
 public class Menu {
   boolean help = false;
   boolean credits = false;
-  private final int half = displayWidth/2;
+  private final int halfX = width/2;
+  private final int halfY = height/2;
+  PFont font = createFont("Freestyle Script", 32);
+  PImage bg = loadImage("garden_labyrinth.jpg");
 
   /* IN SELECT ATTRIBUTE:
   * 0 equals start game, 1 equals instructions,
@@ -14,9 +17,9 @@ public class Menu {
   int select = 0;
 
   public void draw(){
-    fill(0, 50);
-    rect(0, 0, displayWidth, displayHeight);
-    fill(0);
+    bg.resize(width, height);
+    background(bg);
+    fill(255);
     textAlign(CENTER);
     if (!help && !credits) {
       drawMain();
@@ -29,33 +32,31 @@ public class Menu {
 
   private void drawMain(){
     // Draw the header and subheader
-    textSize(100);
-    text("DIVER", half, 200);
-    textSize(24);
-    text("A game by BraveHeart Studios", half, 300);
-    for (int i = 295; i < 306; i++) {
-      text("Studios", half+250, i);
-    }
+    textFont(font);
+    textSize(40);
+    text("EDEN", halfX, halfY/2-50);
+    textSize(35);
+    text("A game by BraveHeart Studios", halfX, (2*halfY/3)-50);
 
-    textSize(28);
+    textSize(35);
     textAlign(LEFT, CENTER);
-    text("Start game", half-150, 500);
-    text("Instructions", half-150, 550);
-    text("Credits", half-150, 600);
+    text("Start game", halfX-70, halfY+120);
+    text("Instructions", halfX-70, halfY+170);
+    text("Credits", halfX-70, halfY+220);
 
     if (((int)millis()/600)%2 == 0) {
-      fill(0);
-      stroke(0);
+      fill(255);
+      stroke(255);
     } else {
-      fill(0, 30);
-      stroke(0, 30);
+      fill(255, 30);
+      stroke(255, 30);
     }
     if (select == 0) {
-      triangle(half-160, 500, half-190, 480, half-190, 520);
+      triangle(halfX-95, halfY+125, halfX-110, halfY+115, halfX-110, halfY+135);
     } else if (select == 1) {
-      triangle(half-160, 550, half-190, 530, half-190, 570);
+      triangle(halfX-95, halfY+175, halfX-110, halfY+165, halfX-110, halfY+185);
     } else if (select == 2) {
-      triangle(half-160, 600, half-190, 580, half-190, 620);
+      triangle(halfX-95, halfY+225, halfX-110, halfY+215, halfX-110, halfY+235);
     }
     fill(0);
     stroke(0);
@@ -71,41 +72,41 @@ public class Menu {
     header("INSTRUCTIONS");
     textAlign(LEFT, CENTER);
     rectMode(CENTER);
-    textSize(20);
-    text(instructions, half, 400, half+300, 550);
-    textSize(28);
+    textSize(30);
+    text(instructions, halfX, 400, halfX+300, 550);
+    textSize(35);
     textAlign(CENTER);
     rectMode(CORNER);
     footer();
   }
 
   public void drawCredits(){
-    String credits = "* Programming and design: Team Braveheart (Emmi Peltonen, Lauri Lavanti and Otso Sorvettula)\n\n" +
+    String credits = "* Programming and design: Team Braveheart (Emmi Peltonen, Lauri Lavanti, Toomas Kallioja and Kaisa Halmetoja)\n\n" +
     "* Menu music: Underclocked (underunderclocked mix) by Eric Skiff (ericskiff.com)\n\n" +
-    "* Countdown music: Red Alert FX 001 from woolyss.com/chipmusic-samples.php\n\n" +
+    "* Menu background: FreeFever: Castle Beyond The Labyrinth Garden Wallpaper (freefever.com)" +
     "* Underwater music: We're the Resistors by Eric Skiff (ericskiff.com)\n\n" +
     "* Font: Press Start 2P by codeman38 (fontspace.com)\n\n" +
     "* Other sounds made with Bfxr (bfxr.net)";
     header("CREDITS");
     textAlign(LEFT, CENTER);
     rectMode(CENTER);
-    textSize(20);
-    text(credits, half, 400, half+300, 550);
-    textSize(28);
+    textSize(30);
+    text(credits, halfX, 400, halfX+300, 550);
+    textSize(35);
     textAlign(CENTER);
     rectMode(CORNER);
     footer();
   }
 
   private void header(String head){
-    textSize(72);
-    text(head, half, 150);
-    textSize(28);
+    textSize(40);
+    text(head, halfX, 150);
+    textSize(35);
   }
 
   private void footer(){
     if (((int)millis()/600)%2 == 0) {
-      text("Press ENTER to return", half, 750);
+      text("Press ENTER to return", halfX, 750);
     }
   }
 

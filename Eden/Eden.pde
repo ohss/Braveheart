@@ -51,8 +51,6 @@ public void draw(){
     }
   }
   else if (mainMenu) {
-    fill(135, 206, 235);
-    rect(0, 0, displayWidth, displayHeight);
     menu.draw();
   }
 }
@@ -67,7 +65,9 @@ public void keyPressed(){
 
 public void drawFloor(){
   fill(1, 142, 14);
-  rect(0, 0, 2000, 2000);
+  //rect(0, 0, 2000, 2000);
+  ellipseMode(CENTER);
+  ellipse(width/2, height/2, 4000, 4000);
 }
 
 public void readFile(){
