@@ -21,9 +21,12 @@ private boolean mainMenu = true;
 private boolean gameOver = true;
 final int wallHeight = 200;
 final int wallSize = 200;
+final int gameWidth = displayWidth;
+final int gameHeight = displayHeight;
+final boolean fullScreen = true;
 
 public void setup(){
-  size(displayWidth,displayHeight,OPENGL);
+  size(gameWidth,gameHeight,OPENGL);
   background(135, 206, 235);
   noCursor();
   sky = new Sky();
@@ -37,7 +40,7 @@ public void setup(){
 }
 
 boolean sketchFullScreen(){
-  return true;
+  return fullScreen;
 }
 
 public void draw(){
@@ -60,6 +63,12 @@ public void keyPressed(){
     menu.keyPressed();
   } else if (!mainMenu && !gameOver) {
     player.keyPressed();
+  }
+}
+
+public void mouseMoved(){
+  if (!mainMenu && !gameOver) {
+    player.mouseMoved();
   }
 }
 
