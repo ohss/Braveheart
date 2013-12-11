@@ -1,4 +1,3 @@
-
 public class Player {
  
   // Player's location
@@ -10,6 +9,8 @@ public class Player {
   private float lookX;
   private float lookY;
   private float lookZ = wallHeight/3*2;
+  private float angleX;
+  private float angleY = 90;
   
   // The location of axes to the player.
   private float upX = 0;
@@ -22,15 +23,19 @@ public class Player {
     if (playerD.trim().equals("WEST")) {
       lookX = locX;
       lookY = locY + 10;
+      angleX = 270;
     } else if (playerD.trim().equals("NORTH")) {
       lookX = locX - 10;
       lookY = locY;
+      angleX = 0;
     } else if (playerD.trim().equals("EAST")) {
       lookX = locX;
       lookY = locY - 10;
+      angleX = 90;
     } else {
       lookX = locX + 10;
       lookY = locY;
+      angleX = 180;
     } 
   }
   
@@ -41,19 +46,15 @@ public class Player {
   public void keyPressed() {
     if (key == 'w' || key == 'W') {
       locX += 10;
-      lookX += 10;
     }
     if (key == 's' || key == 'S') {
       locX -= 10;
-      lookX -= 10;
     }
     if (key == 'a' || key == 'A') {
       locY -= 10;
-      lookY -= 10;
     }
     if (key == 'd' || key == 'D') {
       locY += 10;
-      lookY += 10;
     }
     checkCollision();
   }
@@ -79,6 +80,32 @@ public class Player {
         locY = max(min(locY, maxY), minY);
       }
     }
+  }
+  
+  public void mouseMoved(){
+   int radius = 10;
+   angleX = (mouseX - pmouseX) - angleX;
+   angleY = (mouseY - pmouseY) - angleY;
+   println(angleX);
+   if (angleX < 0) {
+    angleX = 360 + angleX;
+   } else if (angleX > 359) {
+    angleX = 360 - angleX;
+   }
+   
+   if (angleY < 0) {
+    angleY = 360 + angleY;
+   } else if (angleY > 359) {
+    angleY = 360 - angleY;
+   }
+   println(angleX);
+   
+   float tempX = lookX*cos(angleX)-lookY*sin(angleX);
+   float tempY = lookX*sin(angleX)+lookY*cos(angleX);
+   
+   lookX = tempX;
+   lookY = tempY;
+   println("KatseX: " + lookX + ", KatseY: " + lookY);
   }
   
   /**
