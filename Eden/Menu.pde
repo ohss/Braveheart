@@ -8,7 +8,6 @@ public class Menu {
   private final int halfX = gameWidth/2;
   private final int halfY = gameHeight/2;
   PFont font = createFont("Freestyle Script", 32);
-  PImage bg = loadImage("garden_labyrinth.jpg");
 
   /* IN SELECT ATTRIBUTE:
   * 0 equals start game, 1 equals instructions,
@@ -17,7 +16,6 @@ public class Menu {
   int select = 0;
 
   public void draw(){
-    bg.resize(gameWidth, gameHeight);
     background(bg);
     fill(255);
     textAlign(CENTER);

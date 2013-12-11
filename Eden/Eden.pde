@@ -21,13 +21,18 @@ private boolean mainMenu = true;
 private boolean gameOver = true;
 final int wallHeight = 200;
 final int wallSize = 200;
-final int gameWidth = displayWidth;
-final int gameHeight = displayHeight;
+int gameWidth;
+int gameHeight;
 final boolean fullScreen = true;
+private PImage bg;
 
 public void setup(){
+  gameWidth = displayWidth;
+  gameHeight = displayHeight;
   size(gameWidth,gameHeight,OPENGL);
-  background(135, 206, 235);
+  bg = loadImage("garden_labyrinth.jpg");
+  bg.resize(gameWidth, gameHeight);
+  background(bg);
   noCursor();
   sky = new Sky();
   menu = new Menu();
