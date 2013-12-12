@@ -13,7 +13,7 @@ public class Player {
   boolean movingLeft;
   boolean movingRight;
   
-  static final int SPEED = 6;
+  static final int SPEED = 4;
   
   float rotX, rotY;
   
@@ -81,6 +81,9 @@ public class Player {
     
     // Adding movement to the eye
     PVector increment = PVector.mult(new PVector(dir.x, dir.y, 0),SPEED);
+    PVector sideways = new PVector(dir.x, dir.y, 0).cross(up);
+    sideways.normalize();
+    sideways.mult(SPEED);
     if(movingFwd) {
       eye.add(increment);
     }
@@ -88,10 +91,10 @@ public class Player {
       eye.sub(increment);
     }
     if(movingLeft){
-      eye.sub(PVector.div(increment, 2));
+      eye.sub(sideways);
     }
     if (movingRight){
-      eye.add(PVector.div(increment, 2));
+      eye.add(sideways);
     }
     
     // IMPORTANT NOTE: this is not the original Processing 2.0 camera method!

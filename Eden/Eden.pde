@@ -60,6 +60,7 @@ public void draw(){
     player.draw();
     sky.draw();
     drawFloor();
+    drawGoal();
     for (GardenWall wall : walls) {
       wall.draw();
     }
@@ -88,6 +89,18 @@ public void drawFloor(){
   fill(1, 142, 14);
   rect(0, 0, levelWidth*wallSize, levelLength*wallSize);
   translate(0, 0, -wallHeight);
+}
+
+public void drawGoal(){
+  if (goalD.equals("NORTH")) {
+    
+  } else if (goalD.equals("EAST")) {
+    
+  } else if (goalD.equals("SOUTH")) {
+    
+  } else {
+    
+  }
 }
 
 public void readFile(){
