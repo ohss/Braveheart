@@ -44,7 +44,7 @@ public void setup(){
   menu = new Menu();
   // Tähän tehdään muurit
   readFile();
-  player = new Player();
+  player = new Player(this);
   for (Position pos : wallPos) {
     walls.add(new GardenWall(pos.x, pos.y));
   }
@@ -56,7 +56,7 @@ boolean sketchFullScreen(){
 
 public void draw(){
   if (!mainMenu && !gameOver) {
-    player.setCam();
+    player.draw();
     sky.draw();
     drawFloor();
     for (GardenWall wall : walls) {
@@ -73,12 +73,6 @@ public void keyPressed(){
     menu.keyPressed();
   } else if (!mainMenu && !gameOver) {
     player.keyPressed();
-  }
-}
-
-public void mouseMoved(){
-  if (!mainMenu && !gameOver) {
-    player.mouseMoved();
   }
 }
 
