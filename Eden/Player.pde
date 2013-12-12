@@ -1,62 +1,112 @@
 public class Player {
- 
-  // Player's location
-  private final float locZ = wallHeight/3*2;
-  private float locX;
-  private float locY;
+  PApplet parent;
   
-  // The location the player is looking at
-  private float lookX;
-  private float lookY;
-  private float lookZ = wallHeight/3*2;
-  private float angleX;
-  private float angleY = 90;
+  PVector eye;
+  PVector dir;
+  PVector up;
+  PVector zAxis;
   
-  // The location of axes to the player.
-  private float upX = 0;
-  private float upY = 0;
-  private float upZ = -1.0;
+  boolean movingFwd;
+  boolean movingBack;
+  boolean movingLeft;
+  boolean movingRight;
   
-  public Player() {
-    locX = playerPos.x*wallSize + (wallSize/2);
-    locY = playerPos.y*wallSize + (wallSize/2);
-    if (playerD.trim().equals("WEST")) {
-      lookX = locX;
-      lookY = locY - 10;
-      angleX = 270;
-    } else if (playerD.trim().equals("NORTH")) {
-      lookX = locX - 10;
-      lookY = locY;
-      angleX = 0;
-    } else if (playerD.trim().equals("EAST")) {
-      lookX = locX;
-      lookY = locY + 10;
-      angleX = 90;
-    } else {
-      lookX = locX + 10;
-      lookY = locY;
-      angleX = 180;
+  static final int SPEED = 6;
+  
+  float rotX, rotY;
+  
+  void init(PApplet parent){
+   // "Player" and movement variables
+   eye = new PVector(playerPos.x*wallSize+wallSize/2, playerPos.y*wallSize+wallSize/2, wallHeight/2);
+   if (playerD.equals("NORTH")) {
+     dir = new PVector(-1, 0, 0);
+   } else if (playerD.equals("EAST")) {
+     dir = new PVector(0, 1, 0);
+   } else if (playerD.equals("SOUTH")) {
+     dir = new PVector(1, 0, 0);
+   } else {
+     dir = new PVector(0, -1, 0);
+   }
+   up = new PVector(0, 0, 1);
+   movingFwd = false;
+   movingBack = false;
+   movingLeft = false;
+   movingRight = false;
+   
+   this.parent = parent;
+   
+   rotX = rotY = 0.0;
+  }
+  
+  void draw(){    
+    // Rotating camera
+    rotX += radians(pmouseX - mouseX)/2;
+    rotY += radians(pmouseY - mouseY)/2;
+    
+    /* Processing's linear algebra functionality sucks ass,
+     * which forces us to use such uncivilized methods of
+     * calculation instead of rotation Matrii. IRL those are
+     * not that great either, see quaternions for Real Power™
+     * in 3D rotations. */
+    dir.x = cos(rotX);
+    dir.y = sin(rotX);
+    dir.z = -tan(rotY);
+    // Source: http://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm
+    // Remember: x=1, y=0, z=0 in the formulae, since that is our
+    // original viewing direction
+    
+    
+    // Adding movement to the eye
+    PVector increment = PVector.mult(new PVector(dir.x, dir.y, 0),SPEED);
+    if(movingFwd) {
+      eye.add(increment);
+    }
+    if(movingBack){
+      eye.sub(increment);
+    }
+    if(movingLeft){
+      eye.sub(PVector.div(increment, 2));
+    }
+    if (movingRight){
+      eye.add(PVector.div(increment, 2));
+    }
+    
+    // IMPORTANT NOTE: this is not the original Processing 2.0 camera method!
+    vCamera(eye,dir,up);
+  }
+  
+  void keyPressed(){
+    if(key == 'w' || key == 'W'){
+      movingFwd = true; 
+    } else if(key == 's' || key == 'S'){
+      movingBack = true; 
+    } else if (key == 'a' || key == 'A'){
+      movingLeft = true;
+    } else if (key == 'd' || key == 'D'){
+      movingRight = true;
     }
   }
   
-  public void setCam() {
-    camera(locX, locY, locZ, lookX, lookY, lookZ, upX, upY, upZ);
+  void keyReleased(){
+    if(key == 'w' || key == 'W'){
+      movingFwd = false; 
+    } else if(key == 's' || key == 'S'){
+      movingBack = false; 
+    } else if (key == 'a' || key == 'A'){
+      movingLeft = false;
+    } else if (key == 'd' || key == 'D'){
+      movingRight = false;
+    }
   }
   
-  public void keyPressed() {
-    if (key == 'w' || key == 'W') {
-      locX += 10;
-    }
-    if (key == 's' || key == 'S') {
-      locX -= 10;
-    }
-    if (key == 'a' || key == 'A') {
-      locY -= 10;
-    }
-    if (key == 'd' || key == 'D') {
-      locY += 10;
-    }
-    checkCollision();
+  /* Processing's camera method is retarded, and demands the center (or focal
+   * point) of the view frustum. As aperture is not simulated, the distance of
+   * said center is irrelevant; it only has to be on the dir vector to work. */
+  void vCamera(PVector eye, PVector dir, PVector up){
+    PVector cent = PVector.add(eye,dir);
+    this.parent.camera(eye.x, eye.y, eye.z,
+           cent.x, cent.y, cent.z,
+           up.x, up.y, up.z);
   }
   
   public void checkCollision() {
@@ -81,164 +131,4 @@ public class Player {
       }
     }
   }
-  
-  public void mouseMoved(){
-   int radius = 10;
-   angleX = (mouseX - pmouseX) - angleX;
-   angleY = (mouseY - pmouseY) - angleY;
-   println(angleX);
-   if (angleX < 0) {
-    angleX = 360 + angleX;
-   } else if (angleX > 359) {
-    angleX = 360 - angleX;
-   }
-   
-   if (angleY < 0) {
-    angleY = 360 + angleY;
-   } else if (angleY > 359) {
-    angleY = 360 - angleY;
-   }
-   println(angleX);
-   
-   float tempX = lookX*cos(angleX)-lookY*sin(angleX);
-   float tempY = lookX*sin(angleX)+lookY*cos(angleX);
-   
-   lookX = tempX;
-   lookY = tempY;
-   println("KatseX: " + lookX + ", KatseY: " + lookY);
-  }
-  
-  /**
-  * Code taken/inspired by http://www.openprocessing.org/sketch/25255
-  */
-  /*
-  // Floor has y-value
-  final float floorLevel = 0.0;
-
-  // camera / where you are
-  float xpos,ypos,zpos, xlookat,ylookat,zlookat;
-  float angle=0.0; // (angle left / right; 0..359)
-  
-  /**
-  sincoslookup taken from http://wiki.processing.org/index.php/Sin/Cos_look-up_table
-  @author toxi (http://www.processinghacks.com/user/toxi)
-  */
-  /*
-  // declare arrays and params for storing sin/cos values
-  float sinLUT[];
-  float cosLUT[];
-  // set table precision to 0.5 degrees
-  float SC_PRECISION = 0.5f;
-  // caculate reciprocal for conversions
-  float SC_INV_PREC = 1/SC_PRECISION;
-  // compute required table length
-  int SC_PERIOD = (int) (360f * SC_INV_PREC);
-  
-  // -------------------------------------------------------------
-  // virtual mouse
-  // Code by rbrauer.
-  // It won't work in the applet, ie online.
-  // Copy the source code and try it from the PDE.
- 
-  float rmx, rmy;   // virtual mouse values
-  
-  public Player(){
-    xpos = width/2.0;
-    ypos = 360;
-    zpos = 0 ; 
-  
-    CheckVirtualMouse ();
-    CheckCameraMouse ();
-  }
-  
-  void CheckCameraMouse () {
-    // Mouse 
-    // note: Makes use of the values of Robot-Mouse.
-    float Radius = 450.0;  // Anfangsradius des Kreises
- 
-    // command map: See Help.
-    angle = map(rmx,width,0,0,359); // left right
- 
-    // look at
-    xlookat = Radius*sin(radians(angle)) + xpos;
-    ylookat = map(rmy,-300,floorLevel-120,-270,height); // look up / down
-    zlookat = Radius*cos(radians(angle)) + zpos;
- 
-    camera (xpos,ypos,zpos, xlookat, ylookat, zlookat, 0.0, 1.0, 0.0);
-  }
-  
-  void CheckVirtualMouse () {
- 
-    // Code by rbrauer.
-    // it won't work in the applet, ie online.
-    // Copy the source code and try it from the PDE.
- 
-
- 
-    //mouse pos is locked in center of canvas 
-    //above lines subtract the centering, get whatever offset from 
-    //center user creates by moving mouse before robot resets it, then 
-    //continously adds that to our new mouse pos variables 
-    rmx += mouseX-width/2; 
-    rmy += mouseY-height/2; 
- 
-    //these lines are just shortened conditionals to handle 
-    //wrapping of our mouse pos variables when they go outside canvas 
-    //first one: 
-    //if rmx>width? set rmx to rmx-width else : set rmx to rmx 
-    rmx = rmx>width?rmx-width:rmx; 
-    rmx = rmx<0?width+rmx:rmx; 
-    // check ceiling
-    if (rmy<-300) {
-      rmy= -300;
-    }
-    // check floor
-    if (rmy>floorLevel-20) {
-      rmy= floorLevel-20;
-    }
-  }
-  
-  public void keyPressed(){
-    float Radius = 13;
- 
-    // ----------------------------   
-    // forward & backward
-    if (key == 'w' || key == 'W') {
-      // forward : should be running towards lookat
-      xpos =   Radius*sin(radians(angle)) + xpos;
-      zpos =   Radius*cos(radians(angle)) + zpos;
-    }
-    if (key == 's' || key == 'S') {
-      // backward
-      xpos =  xpos- (Radius*sin(radians(angle))) ;
-      zpos =  zpos- (Radius*cos(radians(angle))) ;
-    }
-    // ----------------------------   
-    // left & right
-    if (key == 'a' || key == 'A') {
-      // left
-      xpos =   xpos- Radius*sin(radians(angle-90)) ;
-      zpos =   zpos- Radius*cos(radians(angle-90)) ;
-    }
-    if (key == 'D' || key == 'd') {
-      // right
-      xpos =   Radius*sin(radians(angle-90)) + xpos;
-      zpos =   Radius*cos(radians(angle-90)) + zpos;
-    }
-    checkBoundaries ();
-  }
-  
-  void checkBoundaries () {
- 
-    if (xpos<-3995) {
-      xpos=-3995;
-    } else if (xpos>3995) {
-      xpos=3995;
-    }
-    if (zpos<-3995) {
-      zpos=-3995;
-    } else if (zpos>3995) {
-      zpos=3995;
-    }
-  }*/
 }

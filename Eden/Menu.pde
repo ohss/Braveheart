@@ -110,25 +110,22 @@ public class Menu {
 
   public void keyPressed(){
     if (!help && !credits) {
-      if (key == CODED) {
-        int i = 0;
-        if (keyCode == UP) {
-          i = -1;
-        } else if (keyCode == DOWN) {
-          i = 1;
-        }
-        select += i;
-        if (select > 2) {
-          select = 0;
-        } else if (select < 0) {
-          select = 2;
-        }
+      int i = 0;
+      if (key == 'w' || key == 'W') {
+        i = -1;
+      } else if (key == 's' || key == 'S') {
+        i = 1;
+      }
+      select += i;
+      if (select > 2) {
+        select = 0;
+      } else if (select < 0) {
+        select = 2;
       }
       if (key == ENTER || key == RETURN) {
         if (select == 0) {
           mainMenu = false;
           gameOver = false;
-          player.setCam();
         } else if (select == 1) {
           help = true;
         } else if (select == 2) {
