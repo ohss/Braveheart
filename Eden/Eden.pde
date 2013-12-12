@@ -7,7 +7,9 @@ import java.io.File;
 // Required positions and directions.
 List<Position> wallPos = new ArrayList<Position>();
 Position playerPos;
+Position goalPos;
 String playerD;
+String goalD;
 List<Position> traversables = new ArrayList<Position>();
 
 // Required elements for drawing the game.
@@ -23,13 +25,17 @@ final int wallHeight = 200;
 final int wallSize = 200;
 int gameWidth;
 int gameHeight;
+// X
+int levelWidth = 0;
+// Y
+int levelLength = 0;
 final boolean fullScreen = true;
 private PImage bg;
 
 public void setup(){
   gameWidth = displayWidth;
   gameHeight = displayHeight;
-  size(gameWidth,gameHeight,OPENGL);
+  size(gameWidth,gameHeight,P3D);
   bg = loadImage("garden_labyrinth.jpg");
   bg.resize(gameWidth, gameHeight);
   background(bg);
@@ -50,7 +56,6 @@ boolean sketchFullScreen(){
 
 public void draw(){
   if (!mainMenu && !gameOver) {
-    setAxes();
     player.setCam();
     sky.draw();
     drawFloor();
@@ -79,9 +84,7 @@ public void mouseMoved(){
 
 public void drawFloor(){
   fill(1, 142, 14);
-  //rect(0, 0, 2000, 2000);
-  ellipseMode(CENTER);
-  ellipse(width/2, height/2, 4000, 4000);
+  rect(0, 0, levelWidth*wallSize, levelLength*wallSize);
 }
 
 public void readFile(){
@@ -90,9 +93,12 @@ public void readFile(){
     br = new BufferedReader(new FileReader(dataPath("testilabyrintti.txt")));
     String line;
     int x = 0;
+    int lineY = 0;
     playerD = br.readLine();
+    goalD = br.readLine();
     while ((line = br.readLine()) != null) {
       for (int y = 0; y < line.length(); y++) {
+        lineY = line.length() > lineY ? line.length() : lineY;
         String sub = "" + line.charAt(y);
         if (sub.equals("x")) {
           wallPos.add(new Position(x, y));
@@ -101,10 +107,15 @@ public void readFile(){
           traversables.add(new Position(x*wallSize, y*wallSize));
         } else if (sub.equals("o")) {
           traversables.add(new Position(x*wallSize, y*wallSize));
+        } else if (sub.equals("g")) {
+          goalPos = new Position(x, y);
+          traversables.add(new Position(x*wallSize, y*wallSize));
         }
       }
       x++;
     }
+    levelWidth = x;
+    levelLength = lineY;
     for (Position trav : traversables) {
       if (wallPos.contains(new Position((trav.x-wallSize)/wallSize, trav.y/wallSize))) {
         trav.north = false;
@@ -127,36 +138,6 @@ public void readFile(){
     } catch (IOException ex) {
     }
   }
-}
-
-private void setAxes(){
-  translate(0, 800);
-  rotateX(radians(90));
-  rotateZ(radians(-90));
-  // X-axis = red
-  line(1, 1, 1, 401, 1, 1);
-  fill(255, 0, 0);
-  beginShape(TRIANGLES);
-  vertex(401, -21, 1);
-  vertex(401, 21, 1);
-  vertex(421, 1, 1);
-  endShape();
-  // Y-axis = green
-  line(1, 1, 1, 1, 401, 1);
-  fill(0, 255, 0);
-  beginShape(TRIANGLES);
-  vertex(1, 401, -21);
-  vertex(1, 401, 21);
-  vertex(1, 421, 1);
-  endShape();
-  // Z-axis = blue
-  line(1, 1, 1, 1, 1, 401);
-  fill(0, 0, 255);
-  beginShape(TRIANGLES);
-  vertex(-21, 1, 401);
-  vertex(21, 1, 401);
-  vertex(1, 1, 421);
-  endShape();
 }
 
 public class Position {

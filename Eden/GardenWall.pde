@@ -20,19 +20,6 @@ public class GardenWall {
     drawSide(tempX, tempY, false);
     drawSide(tempX+wallSize, tempY, false);
     drawSide(tempX, tempY+wallSize, true);
-    /*beginShape(QUAD_STRIP);
-    vertex(x, y, 0);
-    vertex(x, y, wallHeight);
-    vertex(x+100, y, wallHeight);
-    vertex(x+100, y, 0);
-    vertex(x+100, y+100, 0);
-    vertex(x+100, y+100, wallHeight);
-    vertex(x, y+100, wallHeight);
-    vertex(x, y+100, 0);
-    endShape();*/
-    //translate(tempX, tempY, wallHeight/2);
-    //box(100, 100, wallHeight);
-    //translate(-tempX, -tempY, -wallHeight/2);
   }
   
   private void drawSide(int startX, int startY, boolean xNotY){

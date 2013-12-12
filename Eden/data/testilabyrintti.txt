@@ -1,7 +1,8 @@
-WEST
+EAST
+SOUTH
 xxxxxxxx
 xaooooox
 xxxxoxxx
 xooooxxx
 xoxxoxxx
-xxxxoxxx
+xxxxgxxx

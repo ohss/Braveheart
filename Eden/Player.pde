@@ -22,7 +22,7 @@ public class Player {
     locY = playerPos.y*wallSize + (wallSize/2);
     if (playerD.trim().equals("WEST")) {
       lookX = locX;
-      lookY = locY + 10;
+      lookY = locY - 10;
       angleX = 270;
     } else if (playerD.trim().equals("NORTH")) {
       lookX = locX - 10;
@@ -30,13 +30,13 @@ public class Player {
       angleX = 0;
     } else if (playerD.trim().equals("EAST")) {
       lookX = locX;
-      lookY = locY - 10;
+      lookY = locY + 10;
       angleX = 90;
     } else {
       lookX = locX + 10;
       lookY = locY;
       angleX = 180;
-    } 
+    }
   }
   
   public void setCam() {
