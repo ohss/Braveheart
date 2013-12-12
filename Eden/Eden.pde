@@ -31,6 +31,7 @@ int levelWidth = 0;
 int levelLength = 0;
 final boolean fullScreen = true;
 private PImage bg;
+private PImage floorText;
 
 public void setup(){
   gameWidth = displayWidth;
@@ -49,6 +50,7 @@ public void setup(){
   for (Position pos : wallPos) {
     walls.add(new GardenWall(pos.x, pos.y));
   }
+  floorText = loadImage("floor3.jpg");
 }
 
 boolean sketchFullScreen(){
@@ -85,10 +87,17 @@ public void keyReleased(){
 }
 
 public void drawFloor(){
-  translate(0, 0, wallHeight);
+  beginShape();
+  texture(floorText);
+  //translate(0, 0, wallHeight);
   fill(1, 142, 14);
-  rect(0, 0, levelWidth*wallSize, levelLength*wallSize);
-  translate(0, 0, -wallHeight);
+  //rect(0, 0, levelWidth*wallSize, levelLength*wallSize);
+  vertex(0, 0, wallHeight, 0, 0);
+  vertex(0, levelLength*wallSize, wallHeight, 0, floorText.height);
+  vertex(levelWidth*wallSize, levelLength*wallSize, wallHeight, floorText.width, floorText.height);
+  vertex(levelWidth*wallSize, 0, wallHeight, floorText.width, 0);
+  //translate(0, 0, -wallHeight);
+  endShape();
 }
 
 public void drawGoal(){
