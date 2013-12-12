@@ -76,6 +76,12 @@ public void keyPressed(){
   }
 }
 
+public void keyReleased(){
+  if (!mainMenu && !gameOver) {
+    player.keyReleased();
+  }
+}
+
 public void drawFloor(){
   fill(1, 142, 14);
   rect(0, 0, levelWidth*wallSize, levelLength*wallSize);

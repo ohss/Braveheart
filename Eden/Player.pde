@@ -39,7 +39,7 @@ public class Player {
   
   public void draw() {
     // Rotating camera
-    int deltaX = pmouseX - mouseX;
+    int deltaX = parent.pmouseX - parent.mouseX;
     rotX += radians(deltaX);
     
     /* Processing's linear algebra functionality sucks ass,
@@ -66,31 +66,31 @@ public class Player {
   }
   
   public void keyPressed() {
-    if (key == 'w' || key == 'W') {
+    if (parent.key == 'w' || parent.key == 'W') {
       movingFwd = true;
     }
-    if (key == 's' || key == 'S') {
+    if (parent.key == 's' || parent.key == 'S') {
       movingBack = true;
     }
-    if (key == 'a' || key == 'A') {
+    if (parent.key == 'a' || parent.key == 'A') {
       movingLeft = true;
     }
-    if (key == 'd' || key == 'D') {
+    if (parent.key == 'd' || parent.key == 'D') {
       movingRight = true;
     }
   }
   
   public void keyReleased(){
-    if (key == 'w' || key == 'W') {
+    if (parent.key == 'w' || parent.key == 'W') {
       movingFwd = false;
     }
-    if (key == 's' || key == 'S') {
+    if (parent.key == 's' || parent.key == 'S') {
       movingBack = false;
     }
-    if (key == 'a' || key == 'A') {
+    if (parent.key == 'a' || parent.key == 'A') {
       movingLeft = false;
     }
-    if (key == 'd' || key == 'D') {
+    if (parent.key == 'd' || parent.key == 'D') {
       movingRight = false;
     }
   }
@@ -120,7 +120,7 @@ public class Player {
   
   public void vCamera(PVector eye, PVector dir, PVector up){
     PVector cent = PVector.add(eye, dir);
-    camera(eye.x, eye.y, eye.z, cent.x, cent.y, cent.z, up.x, up.y, up.x);
+    parent.camera(eye.x, eye.y, eye.z, cent.x, cent.y, cent.z, up.x, up.y, up.x);
   }
   
   /**
@@ -194,7 +194,7 @@ public class Player {
     //above lines subtract the centering, get whatever offset from 
     //center user creates by moving mouse before robot resets it, then 
     //continously adds that to our new mouse pos variables 
-    rmx += mouseX-width/2; 
+    rmx += parent.mouseX-width/2; 
     rmy += mouseY-height/2; 
  
     //these lines are just shortened conditionals to handle 
