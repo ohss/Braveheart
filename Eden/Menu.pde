@@ -128,7 +128,7 @@ public class Menu {
         if (select == 0) {
           mainMenu = false;
           gameOver = false;
-          player.vCamera(player.eye, player.dir, player.up);
+          player.setCam();
         } else if (select == 1) {
           help = true;
         } else if (select == 2) {

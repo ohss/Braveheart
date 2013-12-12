@@ -1,98 +1,62 @@
 public class Player {
+ 
+  // Player's location
+  private final float locZ = wallHeight/3*2;
+  private float locX;
+  private float locY;
   
-  static final int SPEED = 10;
+  // The location the player is looking at
+  private float lookX;
+  private float lookY;
+  private float lookZ = wallHeight/3*2;
+  private float angleX;
+  private float angleY = 90;
   
-  PApplet parent;
+  // The location of axes to the player.
+  private float upX = 0;
+  private float upY = 0;
+  private float upZ = -1.0;
   
-  PVector eye;
-  PVector dir;
-  PVector up;
-  PVector zAxis;
-  
-  boolean movingFwd;
-  boolean movingBack;
-  boolean movingLeft;
-  boolean movingRight;
-  
-  float rotX, rotY;
-  
-  public Player(PApplet parent) {
-    eye = new PVector(0, 0, 0);
-    up = new PVector(0, 0, 1);
-    dir = new PVector(1, 0, 0);
+  public Player() {
+    locX = playerPos.x*wallSize + (wallSize/2);
+    locY = playerPos.y*wallSize + (wallSize/2);
     if (playerD.trim().equals("WEST")) {
-      //dir = new PVector(0, 1, 0);
+      lookX = locX;
+      lookY = locY - 10;
+      angleX = 270;
     } else if (playerD.trim().equals("NORTH")) {
-      //dir = new PVector(-1, 0, 0);
+      lookX = locX - 10;
+      lookY = locY;
+      angleX = 0;
     } else if (playerD.trim().equals("EAST")) {
-      //dir = new PVector(0, -1, 0);
+      lookX = locX;
+      lookY = locY + 10;
+      angleX = 90;
     } else {
+      lookX = locX + 10;
+      lookY = locY;
+      angleX = 180;
     }
-    movingFwd = false;
-    movingBack = false;
-    movingLeft = false;
-    movingRight = false;
-    rotX = rotY = 0.0;
-    
-    this.parent = parent;
   }
   
-  public void draw() {
-    // Rotating camera
-    int deltaX = parent.pmouseX - parent.mouseX;
-    rotX += radians(deltaX);
-    
-    /* Processing's linear algebra functionality sucks ass,
-    * which forces us to use such uncivilized methods of
-    * calculation instead of rotation Matrii. IRL those are
-    * not that great either, see quaternions for Real Power™
-    * in 3D rotations. */
-    dir.x = cos(rotX);
-    dir.y = sin(rotX);
-    // Source: http://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm
-    // Remember: x=1, y=0, z=0 in the formulae, since that is our
-    // original viewing direction
-  
-    // Adding movement to the eye
-    PVector increment = PVector.mult(dir, SPEED);
-    if (movingFwd) {
-      eye.add(increment);
-    }
-    if (movingBack) {
-      eye.sub(increment);
-    }
-    
-    vCamera(eye, dir, up);
+  public void setCam() {
+    camera(locX, locY, locZ, lookX, lookY, lookZ, upX, upY, upZ);
   }
   
   public void keyPressed() {
-    if (parent.key == 'w' || parent.key == 'W') {
-      movingFwd = true;
+    if (key == 'w' || key == 'W') {
+      locX += 10;
     }
-    if (parent.key == 's' || parent.key == 'S') {
-      movingBack = true;
+    if (key == 's' || key == 'S') {
+      locX -= 10;
     }
-    if (parent.key == 'a' || parent.key == 'A') {
-      movingLeft = true;
+    if (key == 'a' || key == 'A') {
+      locY -= 10;
     }
-    if (parent.key == 'd' || parent.key == 'D') {
-      movingRight = true;
+    if (key == 'd' || key == 'D') {
+      locY += 10;
     }
-  }
-  
-  public void keyReleased(){
-    if (parent.key == 'w' || parent.key == 'W') {
-      movingFwd = false;
-    }
-    if (parent.key == 's' || parent.key == 'S') {
-      movingBack = false;
-    }
-    if (parent.key == 'a' || parent.key == 'A') {
-      movingLeft = false;
-    }
-    if (parent.key == 'd' || parent.key == 'D') {
-      movingRight = false;
-    }
+    checkCollision();
   }
   
   public void checkCollision() {
@@ -102,25 +66,46 @@ public class Player {
       int maxX = minX + wallSize - 60;
       int maxY = minY + wallSize - 60;
       boolean col = false;
-      if (!trav.north && eye.x < minX && eye.x > trav.x && eye.y < (trav.y + wallSize) && eye.y > trav.y) {
+      if (!trav.north && locX < minX && locX > trav.x && locY < (trav.y + wallSize) && locY > trav.y) {
         col = true;
-      } else if (!trav.east && eye.y < minY && eye.y > trav.y && eye.x < (trav.x + wallSize) && eye.x > trav.x) {
+      } else if (!trav.east && locY < minY && locY > trav.y && locX < (trav.x + wallSize) && locX > trav.x) {
         col = true;
-      } else if (!trav.south && eye.x < (trav.x + wallSize) && eye.x > maxX && eye.y < (trav.y + wallSize) && eye.y > trav.y) {
+      } else if (!trav.south && locX < (trav.x + wallSize) && locX > maxX && locY < (trav.y + wallSize) && locY > trav.y) {
         col = true;
-      } else if (!trav.west && eye.y < (trav.y + wallSize) && eye.y > maxY && eye.x < (trav.x + wallSize) && eye.x > trav.x) {
+      } else if (!trav.west && locY < (trav.y + wallSize) && locY > maxY && locX < (trav.x + wallSize) && locX > trav.x) {
         col = true;
       }
       if (col) {
-        eye.x = max(min(eye.x, maxX), minX);
-        eye.y = max(min(eye.y, maxY), minY);
+        locX = max(min(locX, maxX), minX);
+        locY = max(min(locY, maxY), minY);
       }
     }
   }
   
-  public void vCamera(PVector eye, PVector dir, PVector up){
-    PVector cent = PVector.add(eye, dir);
-    parent.camera(eye.x, eye.y, eye.z, cent.x, cent.y, cent.z, up.x, up.y, up.x);
+  public void mouseMoved(){
+   int radius = 10;
+   angleX = (mouseX - pmouseX) - angleX;
+   angleY = (mouseY - pmouseY) - angleY;
+   println(angleX);
+   if (angleX < 0) {
+    angleX = 360 + angleX;
+   } else if (angleX > 359) {
+    angleX = 360 - angleX;
+   }
+   
+   if (angleY < 0) {
+    angleY = 360 + angleY;
+   } else if (angleY > 359) {
+    angleY = 360 - angleY;
+   }
+   println(angleX);
+   
+   float tempX = lookX*cos(angleX)-lookY*sin(angleX);
+   float tempY = lookX*sin(angleX)+lookY*cos(angleX);
+   
+   lookX = tempX;
+   lookY = tempY;
+   println("KatseX: " + lookX + ", KatseY: " + lookY);
   }
   
   /**
@@ -194,7 +179,7 @@ public class Player {
     //above lines subtract the centering, get whatever offset from 
     //center user creates by moving mouse before robot resets it, then 
     //continously adds that to our new mouse pos variables 
-    rmx += parent.mouseX-width/2; 
+    rmx += mouseX-width/2; 
     rmy += mouseY-height/2; 
  
     //these lines are just shortened conditionals to handle 
