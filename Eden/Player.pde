@@ -1,3 +1,5 @@
+import java.awt.Robot;
+
 public class Player {
   PApplet parent;
   
@@ -14,6 +16,11 @@ public class Player {
   static final int SPEED = 6;
   
   float rotX, rotY;
+  
+  // Robot to stop mouse from moving to the edges
+  Robot robot;
+  float rmx, rmy;
+  float prevRmx, prevRmy;
   
   void init(PApplet parent){
    // "Player" and movement variables
@@ -36,12 +43,26 @@ public class Player {
    this.parent = parent;
    
    rotX = rotY = 0.0;
+   
+   try {
+     robot = new Robot();
+   } catch (Throwable e) {
+     e.printStackTrace();
+   }
   }
   
-  void draw(){    
+  void draw(){
+    prevRmx = rmx;
+    prevRmy = rmy;
+    // Virtual mouse via robot
+    robot.mouseMove(parent.frame.getX() + parent.getX() + round(width/2),
+    parent.frame.getY() + parent.getY() + round(height/2));
+    rmx += mouseX-width/2;
+    rmy += mouseY-height/2;
+    
     // Rotating camera
-    rotX += radians(pmouseX - mouseX)/2;
-    rotY += radians(pmouseY - mouseY)/2;
+    rotX += radians(prevRmx - rmx)/2;
+    rotY += radians(prevRmy - rmy)/2;
     
     /* Processing's linear algebra functionality sucks ass,
      * which forces us to use such uncivilized methods of
@@ -50,11 +71,13 @@ public class Player {
      * in 3D rotations. */
     dir.x = cos(rotX);
     dir.y = sin(rotX);
+    
     dir.z = -tan(rotY);
+    
     // Source: http://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm
     // Remember: x=1, y=0, z=0 in the formulae, since that is our
     // original viewing direction
-    
+    checkCollision();
     
     // Adding movement to the eye
     PVector increment = PVector.mult(new PVector(dir.x, dir.y, 0),SPEED);
@@ -111,23 +134,26 @@ public class Player {
   
   public void checkCollision() {
     for (Position trav : traversables) {
-      int minX = trav.x + 30;
-      int minY = trav.y + 30;
-      int maxX = minX + wallSize - 60;
-      int maxY = minY + wallSize - 60;
-      boolean col = false;
-      if (!trav.north && locX < minX && locX > trav.x && locY < (trav.y + wallSize) && locY > trav.y) {
-        col = true;
-      } else if (!trav.east && locY < minY && locY > trav.y && locX < (trav.x + wallSize) && locX > trav.x) {
-        col = true;
-      } else if (!trav.south && locX < (trav.x + wallSize) && locX > maxX && locY < (trav.y + wallSize) && locY > trav.y) {
-        col = true;
-      } else if (!trav.west && locY < (trav.y + wallSize) && locY > maxY && locX < (trav.x + wallSize) && locX > trav.x) {
-        col = true;
+      int minX = trav.x + 40;
+      int minY = trav.y + 40;
+      int maxX = minX + wallSize - 80;
+      int maxY = minY + wallSize - 80;
+      boolean colX = false;
+      boolean colY = false;
+      if (!trav.north && eye.x < minX && eye.x > trav.x && eye.y < (trav.y + wallSize) && eye.y > trav.y) {
+        colX = true;
+      } else if (!trav.east && eye.y < minY && eye.y > trav.y && eye.x < (trav.x + wallSize) && eye.x > trav.x) {
+        colY = true;
+      } else if (!trav.south && eye.x < (trav.x + wallSize) && eye.x > maxX && eye.y < (trav.y + wallSize) && eye.y > trav.y) {
+        colX = true;
+      } else if (!trav.west && eye.y < (trav.y + wallSize) && eye.y > maxY && eye.x < (trav.x + wallSize) && eye.x > trav.x) {
+        colY = true;
       }
-      if (col) {
-        locX = max(min(locX, maxX), minX);
-        locY = max(min(locY, maxY), minY);
+      if (colX) {
+        eye.x = max(min(eye.x, maxX), minX);
+      }
+      if (colY) {
+        eye.y = max(min(eye.y, maxY), minY);
       }
     }
   }

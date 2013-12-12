@@ -104,7 +104,7 @@ public class Menu {
 
   private void footer(){
     if (((int)millis()/600)%2 == 0) {
-      text("Press ENTER to return", halfX, 750);
+      text("Press ENTER or SPACE to return", halfX, 750);
     }
   }
 
@@ -122,7 +122,7 @@ public class Menu {
       } else if (select < 0) {
         select = 2;
       }
-      if (key == ENTER || key == RETURN) {
+      if (key == ENTER || key == RETURN || key == ' ') {
         if (select == 0) {
           mainMenu = false;
           gameOver = false;
@@ -132,9 +132,9 @@ public class Menu {
           credits = true;
         }
       }
-    } else if (help && (key == ENTER || key == RETURN)) {
+    } else if (help && (key == ENTER || key == RETURN || key == ' ')) {
       help = false;
-    } else if (credits && (key == ENTER || key == RETURN)) {
+    } else if (credits && (key == ENTER || key == RETURN || key == ' ')) {
       credits = false;
     }
   }
