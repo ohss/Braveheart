@@ -92,15 +92,38 @@ public void drawFloor(){
 }
 
 public void drawGoal(){
+  fill(255);
+  lightFalloff(1.0, 0.001, 0.0);
+  float half = wallSize/2;
+  float addition = gameWidth/2;
+  beginShape(QUAD);
   if (goalD.equals("NORTH")) {
-    
+    ambientLight(255, 255, 255, goalPos.x*wallSize+1, goalPos.y*wallSize+half, half);
+    vertex(goalPos.x*wallSize, goalPos.y*wallSize, 0);
+    vertex(goalPos.x*wallSize, goalPos.y*wallSize, wallHeight);
+    vertex(goalPos.x*wallSize, goalPos.y*wallSize+wallSize, wallHeight);
+    vertex(goalPos.x*wallSize, goalPos.y*wallSize+wallSize, 0);
   } else if (goalD.equals("EAST")) {
-    
+    ambientLight(255, 255, 255, goalPos.x*wallSize+half, goalPos.y*wallSize+1, half);
+    vertex(goalPos.x*wallSize, goalPos.y*wallSize, 0);
+    vertex(goalPos.x*wallSize, goalPos.y*wallSize, wallHeight);
+    vertex(goalPos.x*wallSize+wallSize, goalPos.y*wallSize, wallHeight);
+    vertex(goalPos.x*wallSize+wallSize, goalPos.y*wallSize, 0);
   } else if (goalD.equals("SOUTH")) {
-    
+    ambientLight(255, 255, 255, goalPos.x*wallSize+wallSize-1, goalPos.y*wallSize+half, half);
+    vertex(goalPos.x*wallSize+wallSize, goalPos.y*wallSize, 0);
+    vertex(goalPos.x*wallSize+wallSize, goalPos.y*wallSize, wallHeight);
+    vertex(goalPos.x*wallSize+wallSize, goalPos.y*wallSize+wallSize, wallHeight);
+    vertex(goalPos.x*wallSize+wallSize, goalPos.y*wallSize+wallSize, 0);
   } else {
-    
+    ambientLight(255, 255, 255, goalPos.x*wallSize+half, goalPos.y*wallSize+wallSize-1, half);
+    vertex(goalPos.x*wallSize, goalPos.y*wallSize+wallSize, 0);
+    vertex(goalPos.x*wallSize, goalPos.y*wallSize+wallSize, wallHeight);
+    vertex(goalPos.x*wallSize+wallSize, goalPos.y*wallSize+wallSize, wallHeight);
+    vertex(goalPos.x*wallSize+wallSize, goalPos.y*wallSize+wallSize, 0);
   }
+  endShape(CLOSE);
+  fill(0);
 }
 
 public void readFile(){

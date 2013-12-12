@@ -137,24 +137,40 @@ public class Player {
   
   public void checkCollision() {
     for (Position trav : traversables) {
+      // Minimum x inside this box
       int minX = trav.x + 40;
+      // Minimum y inside this box
       int minY = trav.y + 40;
+      // Maximum x inside this box
       int maxX = minX + wallSize - 80;
+      // Maximum y inside this box
       int maxY = minY + wallSize - 80;
+      // Collision in the X axis
       boolean colX = false;
+      // Collision in the Y axis
       boolean colY = false;
+      
+      // Check if it collides in the northern part (trav.x parts) and if it's inside the box (trav.y parts)
       if (!trav.north && eye.x < minX && eye.x > trav.x && eye.y < (trav.y + wallSize) && eye.y > trav.y) {
         colX = true;
-      } else if (!trav.east && eye.y < minY && eye.y > trav.y && eye.x < (trav.x + wallSize) && eye.x > trav.x) {
-        colY = true;
-      } else if (!trav.south && eye.x < (trav.x + wallSize) && eye.x > maxX && eye.y < (trav.y + wallSize) && eye.y > trav.y) {
-        colX = true;
-      } else if (!trav.west && eye.y < (trav.y + wallSize) && eye.y > maxY && eye.x < (trav.x + wallSize) && eye.x > trav.x) {
+      } 
+      // Check if it collides in the eastern part (trav.y parts) and if it's inside the box (trav.x parts)
+      else if (!trav.east && eye.y < minY && eye.y > trav.y && eye.x < (trav.x + wallSize) && eye.x > trav.x) {
         colY = true;
       }
+      // Check if it collides in the southern part (trav.x parts) and if it's inside the box (trav.y parts)
+      else if (!trav.south && eye.x < (trav.x + wallSize) && eye.x > maxX && eye.y < (trav.y + wallSize) && eye.y > trav.y) {
+        colX = true;
+      }
+      // Check if it collides in the western part (trav.y parts) and if it's inside the box (trav.x parts)
+      else if (!trav.west && eye.y < (trav.y + wallSize) && eye.y > maxY && eye.x < (trav.x + wallSize) && eye.x > trav.x) {
+        colY = true;
+      }
+      // if it collides in the x-axis make sure it's inside the minimum and maximum bounds
       if (colX) {
         eye.x = max(min(eye.x, maxX), minX);
       }
+      // if it collides in the y-axis make sure it's inside the minimum and maximum bounds
       if (colY) {
         eye.y = max(min(eye.y, maxY), minY);
       }
