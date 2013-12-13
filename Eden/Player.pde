@@ -138,13 +138,13 @@ public class Player {
   public void checkCollision() {
     for (Position trav : traversables) {
       // Minimum x inside this box
-      int minX = trav.x + 40;
+      int minX = trav.x + 50;
       // Minimum y inside this box
-      int minY = trav.y + 40;
+      int minY = trav.y + 50;
       // Maximum x inside this box
-      int maxX = minX + wallSize - 80;
+      int maxX = minX + wallSize - 100;
       // Maximum y inside this box
-      int maxY = minY + wallSize - 80;
+      int maxY = minY + wallSize - 100;
       // Collision in the X axis
       boolean colX = false;
       // Collision in the Y axis
