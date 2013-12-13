@@ -77,7 +77,7 @@ public void draw(){
     }
     menuPlayer.pause();
     endPlayer.pause();
-    labyrinth.loop();
+    labyrinthPlayer.loop();
     labyrinthPlayer.play();
     player.draw();
     sky.draw();
@@ -90,7 +90,7 @@ public void draw(){
   else if (mainMenu) {
     labyrinthPlayer.pause();
     endPlayer.pause();
-    menuPlayer.loop()
+    menuPlayer.loop();
     menuPlayer.play();
     menu.draw();
   } else if (gameOver) {
@@ -258,7 +258,7 @@ public class Position {
 private void loadMusics() {
   minim = new Minim(this);
   // music file for the menu
-  menuPlayer = minim.loadFile("data/menumusa.mp3");
+  menuPlayer = minim.loadFile("data/menumusa.mp3", 2048);
   // music file used for the labyrinth here, no file yet
   labyrinthPlayer = minim.loadFile();
   // music file for end of game here, no file yet
