@@ -261,7 +261,7 @@ private void loadMusics() {
   menuPlayer = minim.loadFile("data/menumusa.mp3", 2048);
   // music file used for the labyrinth here, no file yet
   labyrinthPlayer = minim.loadFile();
-  // music file for end of game here, no file yet
+  // music file for end of game
   endPlayer = minim.loadFile("data/endMusic.wav", 2048);
   menuPlayer.pause();
   labyrinthPlayer.pause();
