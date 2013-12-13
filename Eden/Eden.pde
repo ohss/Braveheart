@@ -1,3 +1,4 @@
+import ddf.minim.*;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -36,6 +37,12 @@ private PImage finishText;
 private boolean start = true;
 private int level;
 
+// Audio players
+protected Minim minim;
+protected AudioPlayer menuPlayer;
+protected AudioPlayer labyrinthPlayer;
+protected AudioPlayer endPlayer;
+
 public void setup(){
   gameWidth = displayWidth;
   gameHeight = displayHeight;
@@ -49,6 +56,8 @@ public void setup(){
   // Tähän tehdään muurit
   floorText = loadImage("floor3.jpg");
   finishText = loadImage("finish.png");
+  // musiikit
+  loadMusics();
 }
 
 boolean sketchFullScreen(){
@@ -66,6 +75,10 @@ public void draw(){
       }
       start = false;
     }
+    menuPlayer.pause();
+    endPlayer.pause();
+    labyrinth.loop();
+    labyrinthPlayer.play();
     player.draw();
     sky.draw();
     drawFloor();
@@ -75,8 +88,16 @@ public void draw(){
     }
   }
   else if (mainMenu) {
+    labyrinthPlayer.pause();
+    endPlayer.pause();
+    menuPlayer.loop()
+    menuPlayer.play();
     menu.draw();
   } else if (gameOver) {
+    menuPlayer.pause();
+    labyrinthPlayer.pause();
+    endPlayer.loop();
+    endPlayer.play();
     menu.drawGameOver();
   }
 }
@@ -232,4 +253,17 @@ public class Position {
   public String toString() {
     return "X: " + x + ", Y: " + y;
   }
+}
+
+private void loadMusics() {
+  minim = new Minim(this);
+  // music file for the menu here, no file yet
+  menuPlayer = minim.loadFile();
+  // music file used for the labyrinth here, no file yet
+  labyrinthPlayer = minim.loadFile();
+  // music file for end of game here, no file yet
+  endPlayer = minim.loadFile();
+  menuPlayer.pause();
+  labyrinthPlayer.pause();
+  endPlayer.pause();
 }
