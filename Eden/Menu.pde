@@ -17,12 +17,6 @@ public class Menu {
   */
   int select = 0;
   
-  /*0 equals easy, 1 normal, 2 hard*/
-
-  public int getLevel(){
-    return level;
-  }
-  
   public void draw(){
     background(bg);
     fill(255);
@@ -46,11 +40,13 @@ public class Menu {
     textSize(35);
     text("A game by BraveHeart Studios", halfX, (2*halfY/3)-50);
 
-    textSize(35);
+textSize(35);
     textAlign(LEFT, CENTER);
     text("Start game", halfX-70, halfY+120);
     text("Instructions", halfX-70, halfY+170);
     text("Credits", halfX-70, halfY+220);
+    textSize(25);
+    text("(Use WASD-keys and ENTER to move in the menu)", halfX*1.3, (halfY*2)-30);
 
     if (((int)millis()/600)%2 == 0) {
       fill(255);
@@ -71,11 +67,8 @@ public class Menu {
   }
 
   public void drawHelp(){
-    String instructions = "THE OBJECT: The Diver's object is to stay underwater for as long as possible\n\n" +
-    "THE CONTROLS: When you start the game, there will be a 10 second countdown. During this period you have to get " +
-    "your pulse as high as possible in order to get as much oxygen in as possible. After you have taken a deep breath, " +
-    "you will dive underwater, and will start to consume that oxygen. The way to stay underwater as long as possible, is " +
-    "to get your pulse to be as low as possible.\n\n" +
+    String instructions = "You are lost in the middle of Eden. Your object is to find your way out.\n\n" +
+    "THE CONTROLS: Control the player with using WASD-keys and mouse.\n\n" +
     "END OF INSTRUCTIONS";
     header("INSTRUCTIONS");
     textAlign(LEFT, CENTER);
@@ -89,12 +82,8 @@ public class Menu {
   }
 
   public void drawCredits(){
-    String credits = "* Programming and design: Team Braveheart (Emmi Peltonen, Lauri Lavanti, Toomas Kallioja and Kaisa Halmetoja)\n\n" +
-    "* Menu music: Underclocked (underunderclocked mix) by Eric Skiff (ericskiff.com)\n\n" +
-    "* Menu background: FreeFever: Castle Beyond The Labyrinth Garden Wallpaper (freefever.com)" +
-    "* Underwater music: We're the Resistors by Eric Skiff (ericskiff.com)\n\n" +
-    "* Font: Press Start 2P by codeman38 (fontspace.com)\n\n" +
-    "* Other sounds made with Bfxr (bfxr.net)";
+    String credits = "Programming and design: \n\n" +
+    "* Team Braveheart: Toomas Kallioja, Lauri Lavanti, Emmi Peltonen, Kaisa Halmetoja *";
     header("CREDITS");
     textAlign(LEFT, CENTER);
     rectMode(CENTER);
@@ -109,8 +98,9 @@ public class Menu {
   public void drawLevelSelection(){
     textSize(35);
     textAlign(LEFT, CENTER);
-    text("Easy", halfX-70, halfY+120);
-    text("Normal", halfX-70, halfY+170);
+    text("Choose the difficulty:", halfX-100, halfY+70);
+    text("Easier", halfX-70, halfY+120);
+    text("Harder", halfX-70, halfY+170);
 
     if (((int)millis()/600)%2 == 0) {
       fill(255);
@@ -194,6 +184,7 @@ public class Menu {
       if (key == ENTER || key == RETURN || key == ' ') {
           mainMenu = false;
           gameOver = false;
+          levels = false;
       }
     }
   }
