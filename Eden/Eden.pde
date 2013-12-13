@@ -33,6 +33,8 @@ final boolean fullScreen = true;
 private PImage bg;
 private PImage floorText;
 private PImage finishText;
+private boolean start = true;
+private int level;
 
 public void setup(){
   gameWidth = displayWidth;
@@ -45,12 +47,6 @@ public void setup(){
   sky = new Sky();
   menu = new Menu();
   // Tähän tehdään muurit
-  readFile();
-  player = new Player();
-  player.init(this);
-  for (Position pos : wallPos) {
-    walls.add(new GardenWall(pos.x, pos.y));
-  }
   floorText = loadImage("floor3.jpg");
   finishText = loadImage("finish.png");
 }
@@ -61,6 +57,15 @@ boolean sketchFullScreen(){
 
 public void draw(){
   if (!mainMenu && !gameOver) {
+    if (start){
+      readFile();
+      player = new Player();
+      player.init(this);
+      for (Position pos : wallPos) {
+        walls.add(new GardenWall(pos.x, pos.y));
+      }
+      start = false;
+    }
     player.draw();
     sky.draw();
     drawFloor();
@@ -143,7 +148,11 @@ public void drawGoal(){
 public void readFile(){
   BufferedReader br = null;
   try {
-    br = new BufferedReader(new FileReader(dataPath("testilabyrintti.txt")));
+    if (level == 0){
+      br = new BufferedReader(new FileReader(dataPath("labyrintti_easy.txt")));
+    } else {
+      br = new BufferedReader(new FileReader(dataPath("labyrintti_normal.txt")));
+    }
     String line;
     int x = 0;
     int lineY = 0;

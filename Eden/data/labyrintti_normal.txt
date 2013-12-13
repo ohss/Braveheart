@@ -1,0 +1,11 @@
+WEST
+SOUTH
+xxxxxxxxxxxxxxxxxx
+xoxaooooooooxxooox
+xoxoxxxxoxxoxxoxxx
+xoooxxoooooooooxox
+xxxxxxoxxxxxxxoxox
+xooooxooooooxxooox
+xoxxoooxxxxoxxxxox
+xooxxxxxooooxxxoox
+xxxxxxxxgxxxxxxxxx
