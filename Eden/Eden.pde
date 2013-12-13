@@ -71,6 +71,8 @@ public void draw(){
   }
   else if (mainMenu) {
     menu.draw();
+  } else if (gameOver) {
+    menu.drawGameOver();
   }
 }
 

@@ -63,23 +63,23 @@ public class Player {
     // Rotating camera
     rotX += radians(prevRmx - rmx)/2;
     rotY += radians(prevRmy - rmy)/2;
-    
-    /* Processing's linear algebra functionality sucks ass,
+   
+     /* Processing's linear algebra functionality sucks ass,
      * which forces us to use such uncivilized methods of
      * calculation instead of rotation Matrii. IRL those are
      * not that great either, see quaternions for Real Power™
      * in 3D rotations. */
     dir.x = cos(rotX);
     dir.y = sin(rotX);
-    
     dir.z = -tan(rotY);
-    
     // Source: http://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm
     // Remember: x=1, y=0, z=0 in the formulae, since that is our
     // original viewing direction
     checkCollision();
     
+    checkGoal();
     // Adding movement to the eye
+    
     PVector increment = PVector.mult(new PVector(dir.x, dir.y, 0),SPEED);
     PVector sideways = new PVector(dir.x, dir.y, 0).cross(up);
     sideways.normalize();
@@ -96,7 +96,7 @@ public class Player {
     if (movingRight){
       eye.add(sideways);
     }
-    
+
     // IMPORTANT NOTE: this is not the original Processing 2.0 camera method!
     vCamera(eye,dir,up);
   }
@@ -174,6 +174,18 @@ public class Player {
       if (colY) {
         eye.y = max(min(eye.y, maxY), minY);
       }
+    }
+  }
+  
+  public void checkGoal(){
+    int goalMinX = goalPos.x*wallSize;
+    int goalMinY = goalPos.y*wallSize;
+    int goalMaxX = goalMinX + wallSize;
+    int goalMaxY = goalMinY + wallSize;
+    
+    if (eye.x > goalMinX && eye.x < goalMaxX && eye.y > goalMinY && eye.y < goalMaxY) {
+      gameOver = true;
+      camera(width/2.0, height/2.0, (height/2.0) / tan(PI*30.0 / 180.0), width/2.0, height/2.0, 0, 0, 1, 0);
     }
   }
 }

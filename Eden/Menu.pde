@@ -8,6 +8,7 @@ public class Menu {
   private final int halfX = gameWidth/2;
   private final int halfY = gameHeight/2;
   PFont font = createFont("Freestyle Script", 32);
+  private int whiteness = 0;
 
   /* IN SELECT ATTRIBUTE:
   * 0 equals start game, 1 equals instructions,
@@ -94,6 +95,17 @@ public class Menu {
     textAlign(CENTER);
     rectMode(CORNER);
     footer();
+  }
+  
+  public void drawGameOver(){
+    fill(255, 20);
+    textAlign(CENTER);
+    rect(0, 0, gameWidth, gameHeight);
+    whiteness += 1;
+    if (whiteness > 20) {
+      fill(0);
+      text("There's a lesson to be learned", halfX, halfY);
+    }
   }
 
   private void header(String head){
