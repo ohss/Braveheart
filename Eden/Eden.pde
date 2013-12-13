@@ -257,8 +257,8 @@ public class Position {
 
 private void loadMusics() {
   minim = new Minim(this);
-  // music file for the menu here, no file yet
-  menuPlayer = minim.loadFile();
+  // music file for the menu
+  menuPlayer = minim.loadFile("data/menumusa.mp3");
   // music file used for the labyrinth here, no file yet
   labyrinthPlayer = minim.loadFile();
   // music file for end of game here, no file yet
