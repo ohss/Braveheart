@@ -37,11 +37,11 @@ private PImage finishText;
 private boolean start = true;
 private int level;
 
-// Audio players
+/* Audio players
 protected Minim minim;
 protected AudioPlayer menuPlayer;
 protected AudioPlayer labyrinthPlayer;
-protected AudioPlayer endPlayer;
+protected AudioPlayer endPlayer; */
 
 public void setup(){
   gameWidth = displayWidth;
@@ -56,8 +56,8 @@ public void setup(){
   // Tähän tehdään muurit
   floorText = loadImage("floor3.jpg");
   finishText = loadImage("finish.png");
-  // musiikit
-  loadMusics();
+
+  // loadMusics();
 }
 
 boolean sketchFullScreen(){
@@ -75,10 +75,10 @@ public void draw(){
       }
       start = false;
     }
-    menuPlayer.pause();
+    /* menuPlayer.pause();
     endPlayer.pause();
     labyrinthPlayer.loop();
-    labyrinthPlayer.play();
+    labyrinthPlayer.play(); */
     player.draw();
     sky.draw();
     drawFloor();
@@ -88,16 +88,16 @@ public void draw(){
     }
   }
   else if (mainMenu) {
-    labyrinthPlayer.pause();
+    /* labyrinthPlayer.pause();
     endPlayer.pause();
     menuPlayer.loop();
-    menuPlayer.play();
+    menuPlayer.play(); */
     menu.draw();
   } else if (gameOver) {
-    menuPlayer.pause();
+    /* menuPlayer.pause();
     labyrinthPlayer.pause();
     endPlayer.loop();
-    endPlayer.play();
+    endPlayer.play(); */
     menu.drawGameOver();
   }
 }
@@ -255,6 +255,7 @@ public class Position {
   }
 }
 
+/*
 private void loadMusics() {
   minim = new Minim(this);
   // music file for the menu
@@ -267,3 +268,4 @@ private void loadMusics() {
   labyrinthPlayer.pause();
   endPlayer.pause();
 }
+*/
